@@ -1,0 +1,30 @@
+# Jingpian Full App TODO
+
+- [x] Inspect current repo state and confirm Next.js rewrite baseline
+- [x] Confirm current lint/build baseline passes
+- [x] Research Better Auth, Stripe, AI Gateway / AI SDK integration details
+- [ ] Install Better Auth / Stripe / AI Gateway dependencies
+- [ ] Add sqlite-backed Better Auth server config
+- [ ] Add Better Auth client helpers and App Router auth route
+- [ ] Build sign-in page
+- [ ] Build sign-up page
+- [ ] Add login-aware nav / account actions
+- [ ] Add pricing page
+- [ ] Add Stripe checkout route
+- [ ] Add Stripe billing portal route
+- [ ] Add Stripe webhook route
+- [ ] Add Better Auth Stripe plugin / subscription plan wiring
+- [ ] Add auth-aware workspace gating
+- [ ] Add premium/live gating for image and video actions
+- [ ] Add AI Gateway image-generation path via AI SDK
+- [ ] Preserve OpenRouter fallback for image/video flows
+- [ ] Add `.env.example` covering auth, billing, AI Gateway, and OpenRouter
+- [ ] Update README to match the real architecture
+- [ ] Add lightweight automated tests for provider/auth/billing guards
+- [ ] Run lint
+- [ ] Run tests
+- [ ] Run build
+- [ ] Run browser QA on `/`, `/sign-in`, `/sign-up`, `/pricing`, `/workspace`
+- [ ] Smoke-test API routes
+- [ ] Commit changes atomically
+- [ ] Push to origin/main
