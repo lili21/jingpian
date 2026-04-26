@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 12px);
+  --shadow-card: var(--shadow-card);
+  --shadow-soft: var(--shadow-soft);
+}
+
+:root {
+  --background: oklch(0.979 0.01 84.2);
+  --foreground: oklch(0.244 0.021 246.1);
+  --card: oklch(0.994 0.004 84.2);
+  --card-foreground: oklch(0.244 0.021 246.1);
+  --popover: oklch(0.996 0.002 84.2);
+  --popover-foreground: oklch(0.244 0.021 246.1);
+  --primary: oklch(0.333 0.048 241.6);
+  --primary-foreground: oklch(0.985 0.003 84.2);
+  --secondary: oklch(0.948 0.011 83.6);
+  --secondary-foreground: oklch(0.293 0.03 241.9);
+  --muted: oklch(0.954 0.009 84);
+  --muted-foreground: oklch(0.506 0.02 240.2);
+  --accent: oklch(0.818 0.057 72.9);
+  --accent-foreground: oklch(0.241 0.024 247.5);
+  --destructive: oklch(0.612 0.191 27.5);
+  --border: oklch(0.888 0.015 82.8);
+  --input: oklch(0.912 0.011 82.4);
+  --ring: oklch(0.686 0.048 239.9);
+  --radius: 1.2rem;
+  --font-body: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-heading: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  --shadow-card: 0 18px 40px rgba(24, 38, 52, 0.08);
+  --shadow-soft: 0 10px 28px rgba(24, 38, 52, 0.05);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0) 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    max-width: 72ch;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 18%, white);
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    @apply transition-colors duration-200;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--ring) 72%, white);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-[1180px] px-5 md:px-8;
+  }
+
+  .section-shell {
+    @apply py-16 md:py-24;
+  }
+
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 rounded-full border border-border/80 bg-white/80 px-3 py-1 text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 1.05;
+  }
+
+  .section-subtitle {
+    @apply mt-5 text-base leading-8 text-muted-foreground md:text-lg;
+  }
+
+  .surface-panel {
+    @apply rounded-[28px] border border-white/70 bg-white/85 shadow-[var(--shadow-card)] backdrop-blur-sm;
+  }
+
+  .surface-soft {
+    @apply rounded-[24px] border border-border/70 bg-secondary/55 shadow-[var(--shadow-soft)];
+  }
+
+  .prose-copy {
+    @apply text-[15px] leading-7 text-muted-foreground md:text-base;
+  }
+
+  .grid-quiet {
+    @apply grid gap-5 md:gap-6;
+  }
+
+  .metric-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-border/90 bg-white px-3.5 py-2 text-sm text-foreground shadow-sm;
+  }
+
+  .cta-link {
+    @apply inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/92;
+  }
+
+  .cta-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-border bg-white/80 px-5 py-3 text-sm font-semibold text-foreground hover:bg-white;
+  }
+
+  .data-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    @apply grid gap-4;
+  }
+
+  .fine-rule {
+    @apply h-px w-full bg-border/80;
+  }
+}
