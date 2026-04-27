@@ -75,6 +75,9 @@ export default function Home() {
                 <a href="#artifact" className="hover:text-foreground">交付证明</a>
                 <a href="#scenarios" className="hover:text-foreground">适用场景</a>
                 <a href="#faq" className="hover:text-foreground">FAQ</a>
+                <Link href="/sign-in" className="hover:text-foreground">
+                  登录
+                </Link>
                 <Link href="/workspace" className="cta-link">
                   打开工作台
                 </Link>
@@ -106,6 +109,9 @@ export default function Home() {
             <div className="flex flex-wrap gap-3">
               <Link href="/workspace" className="cta-link">
                 立即体验工作台 <ArrowRight className="ml-2 size-4" />
+              </Link>
+              <Link href="/sign-up" className="cta-secondary">
+                注册账号
               </Link>
               <a href="#artifact" className="cta-secondary">
                 看交付结构
@@ -368,6 +374,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-3 lg:justify-end">
                 <Link href="/workspace" className="cta-link">
                   打开工作台
+                </Link>
+                <Link href="/sign-in" className="cta-secondary">
+                  登录
                 </Link>
                 <a href="#workflow" className="cta-secondary">
                   再看工作方式
