@@ -66,8 +66,24 @@ export function getImageModel() {
   return process.env.OPENROUTER_IMAGE_MODEL || "openai/gpt-5.4-image-2";
 }
 
-export function getVideoModel() {
+export function getGatewayVideoModel() {
+  return process.env.AI_GATEWAY_VIDEO_MODEL || "bytedance/seedance-2.0";
+}
+
+export function getOpenRouterVideoModel() {
   return process.env.OPENROUTER_VIDEO_MODEL || "bytedance/seedance-2.0";
+}
+
+export function getVideoModel() {
+  if (hasGateway()) {
+    return getGatewayVideoModel();
+  }
+
+  if (hasOpenRouter()) {
+    return getOpenRouterVideoModel();
+  }
+
+  return "jingpian-demo-video";
 }
 
 export function openRouterHeaders() {

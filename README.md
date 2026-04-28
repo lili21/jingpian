@@ -77,16 +77,16 @@ Stripe 套餐页与升级入口。
 - `OPENROUTER_IMAGE_MODEL=openai/gpt-5.4-image-2`
 
 ### 3) 视频生成
-通过 OpenRouter 的视频任务接口提交与轮询：
+当前按下面顺序回退：
 
-- `POST /api/v1/videos`
-- `GET /api/v1/videos/{jobId}`
+1. **Vercel AI Gateway**：当 `AI_GATEWAY_API_KEY` 存在时，优先走 AI SDK `experimental_generateVideo()` + gateway video model。
+2. **OpenRouter**：当未配置 AI Gateway 但存在 `OPENROUTER_API_KEY` 时，走 OpenRouter 视频任务提交与轮询（`POST /api/v1/videos` + `GET /api/v1/videos/{jobId}`）。
+3. **Demo fallback**：当 live provider 未配置或调用失败时，回退到 demo polling flow。
 
 默认模型：
 
+- `AI_GATEWAY_VIDEO_MODEL=bytedance/seedance-2.0`
 - `OPENROUTER_VIDEO_MODEL=bytedance/seedance-2.0`
-
-如果没有配置 OpenRouter key，视频链路会回退到 demo polling flow。
 
 > 说明：`gpt-image-2` / `Seedance 2` 的最终可用 slug 仍以你账号下真实可见模型为准，因此全部保持环境变量可配置。
 
@@ -149,6 +149,7 @@ STORYBOARD_MODEL=openai/gpt-4.1-mini
 ```bash
 AI_GATEWAY_API_KEY=...
 AI_GATEWAY_IMAGE_MODEL=openai/gpt-image-1
+AI_GATEWAY_VIDEO_MODEL=bytedance/seedance-2.0
 
 OPENROUTER_API_KEY=...
 OPENROUTER_IMAGE_MODEL=openai/gpt-5.4-image-2
