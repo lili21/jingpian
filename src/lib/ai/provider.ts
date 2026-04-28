@@ -46,7 +46,23 @@ export function hasOpenRouter() {
   return Boolean(getOpenRouterApiKey());
 }
 
+export function getGatewayApiKey() {
+  return process.env.AI_GATEWAY_API_KEY || "";
+}
+
+export function hasGateway() {
+  return Boolean(getGatewayApiKey());
+}
+
+export function getGatewayImageModel() {
+  return process.env.AI_GATEWAY_IMAGE_MODEL || "openai/gpt-image-1";
+}
+
 export function getImageModel() {
+  if (hasGateway()) {
+    return getGatewayImageModel();
+  }
+
   return process.env.OPENROUTER_IMAGE_MODEL || "openai/gpt-5.4-image-2";
 }
 

@@ -1,6 +1,10 @@
+import { gateway, generateImage } from "ai";
+
 import {
+  getGatewayImageModel,
   getImageModel,
   getOpenRouterBaseUrl,
+  hasGateway,
   hasOpenRouter,
   openRouterHeaders,
 } from "@/lib/ai/provider";
@@ -75,14 +79,35 @@ async function requestSingleImage(prompt: string) {
   return candidates[0] || null;
 }
 
+async function requestSingleGatewayImage(prompt: string, aspectRatio: string) {
+  const result = await generateImage({
+    model: gateway.imageModel(getGatewayImageModel()),
+    prompt,
+    aspectRatio: aspectRatio as `${number}:${number}`,
+  });
+
+  const image = result.images[0];
+
+  if (!image) {
+    return null;
+  }
+
+  return `data:${image.mediaType};base64,${image.base64}`;
+}
+
 export async function generateStoryboardImages(
   input: ImageRequest,
 ): Promise<ImageGenerationResponse> {
-  if (!hasOpenRouter()) {
+  const canUseGateway = hasGateway();
+  const canUseOpenRouter = hasOpenRouter();
+
+  if (!canUseGateway && !canUseOpenRouter) {
     return buildDemoImages(input.frames);
   }
 
   const demo = buildDemoImages(input.frames);
+  const provider = canUseGateway ? "ai-gateway" : "openrouter";
+  const model = getImageModel();
 
   try {
     const images: GeneratedImage[] = await Promise.all(
@@ -94,7 +119,10 @@ export async function generateStoryboardImages(
           "请保持真实、可拍摄、适合中国商业内容提案，不要过度 AI 风格化。",
         ].join("，");
 
-        const liveUrl = await requestSingleImage(prompt).catch(() => null);
+        const liveUrl = await (canUseGateway
+          ? requestSingleGatewayImage(prompt, input.aspectRatio)
+          : requestSingleImage(prompt)
+        ).catch(() => null);
 
         return {
           id: frame.id,
@@ -110,8 +138,8 @@ export async function generateStoryboardImages(
 
     return {
       mode: liveCount > 0 ? "live" : "demo",
-      provider: liveCount > 0 ? "openrouter" : "demo-fallback",
-      model: getImageModel(),
+      provider: liveCount > 0 ? provider : "demo-fallback",
+      model,
       images,
     };
   } catch (error) {
