@@ -1,8 +1,12 @@
 import Link from "next/link";
 
 import { AuthFormCard } from "@/components/auth/auth-form-card";
+import { getSubscriptionState } from "@/lib/billing/subscription";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const subscription = await getSubscriptionState();
+  const pricingLabel = subscription.isPremium ? "管理订阅" : "升级 Premium";
+
   return (
     <main className="section-shell">
       <div className="page-shell grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
@@ -24,9 +28,12 @@ export default function SignInPage() {
             <Link href="/workspace" className="cta-link">
               打开工作台
             </Link>
+            <Link href="/pricing" className="cta-secondary">
+              {pricingLabel}
+            </Link>
           </div>
         </section>
-        <AuthFormCard mode="signin" />
+        <AuthFormCard mode="signin" pricingLabel={pricingLabel} />
       </div>
     </main>
   );

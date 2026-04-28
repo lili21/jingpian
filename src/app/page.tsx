@@ -2,6 +2,8 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 import { ArrowRight, BadgeCheck, FolderKanban, PlayCircle, ShieldCheck, Sparkles } from "lucide-react";
 
+import { getSubscriptionState } from "@/lib/billing/subscription";
+
 const workflow = [
   {
     title: "先收业务简报",
@@ -57,7 +59,10 @@ const faq = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const subscription = await getSubscriptionState();
+  const pricingLabel = subscription.isPremium ? "管理订阅" : "升级 Premium";
+
   return (
     <main>
       <section className="section-shell pb-10 md:pb-16">
@@ -75,6 +80,9 @@ export default function Home() {
                 <a href="#artifact" className="hover:text-foreground">交付证明</a>
                 <a href="#scenarios" className="hover:text-foreground">适用场景</a>
                 <a href="#faq" className="hover:text-foreground">FAQ</a>
+                <Link href="/pricing" className="hover:text-foreground">
+                  {pricingLabel}
+                </Link>
                 <Link href="/sign-in" className="hover:text-foreground">
                   登录
                 </Link>
@@ -113,6 +121,9 @@ export default function Home() {
               <Link href="/sign-up" className="cta-secondary">
                 注册账号
               </Link>
+              <Link href="/pricing" className="cta-secondary">
+                {pricingLabel}
+              </Link>
               <a href="#artifact" className="cta-secondary">
                 看交付结构
               </a>
@@ -121,6 +132,11 @@ export default function Home() {
               <span className="metric-chip">面向品牌 / 商家 / 内容负责人</span>
               <span className="metric-chip">支持 gpt-image-2 路径</span>
               <span className="metric-chip">支持 Seedance 2.0 视频任务配置</span>
+              <span className="metric-chip">
+                {subscription.isSignedIn
+                  ? `当前计划：${subscription.plan}`
+                  : "未登录：默认 Free 计划"}
+              </span>
             </div>
           </motion.div>
 
@@ -377,6 +393,9 @@ export default function Home() {
                 </Link>
                 <Link href="/sign-in" className="cta-secondary">
                   登录
+                </Link>
+                <Link href="/pricing" className="cta-secondary">
+                  {pricingLabel}
                 </Link>
                 <a href="#workflow" className="cta-secondary">
                   再看工作方式

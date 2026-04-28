@@ -15,9 +15,10 @@ type AuthMode = "signin" | "signup";
 
 type AuthFormCardProps = {
   mode: AuthMode;
+  pricingLabel?: string;
 };
 
-export function AuthFormCard({ mode }: AuthFormCardProps) {
+export function AuthFormCard({ mode, pricingLabel = "升级 Premium" }: AuthFormCardProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -92,6 +93,9 @@ export function AuthFormCard({ mode }: AuthFormCardProps) {
           </span>
           <Link href="/workspace" className="text-sm text-muted-foreground hover:text-foreground">
             先浏览工作台
+          </Link>
+          <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground">
+            {pricingLabel}
           </Link>
         </div>
         <CardTitle className="text-2xl tracking-[-0.03em]">{copy.title}</CardTitle>

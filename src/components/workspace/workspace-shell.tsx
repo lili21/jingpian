@@ -25,6 +25,11 @@ import type {
   StoryboardResponse,
   VideoJobResponse,
 } from "@/lib/ai/schemas";
+import type { SubscriptionState } from "@/lib/billing/subscription";
+
+type WorkspaceShellProps = {
+  subscription: SubscriptionState;
+};
 
 type FormState = {
   brief: string;
@@ -74,7 +79,7 @@ async function getJson<T>(url: string): Promise<T> {
   return data as T;
 }
 
-export function WorkspaceShell() {
+export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
   const [form, setForm] = useState<FormState>(initialForm);
   const [storyboard, setStoryboard] = useState<StoryboardResponse | null>(null);
   const [images, setImages] = useState<ImageGenerationResponse | null>(null);
@@ -187,12 +192,28 @@ export function WorkspaceShell() {
                 <Badge variant="outline" className="rounded-full border-border/80 bg-white px-3 py-1 text-[11px] tracking-[0.16em] uppercase">
                   Workspace
                 </Badge>
+                <Badge variant={subscription.isPremium ? "default" : "outline"} className="rounded-full px-3 py-1 text-[11px] tracking-[0.16em] uppercase">
+                  {subscription.plan}
+                </Badge>
+                <Badge variant="outline" className="rounded-full px-3 py-1 text-[11px] tracking-[0.16em] uppercase">
+                  {subscription.source}
+                </Badge>
               </div>
               <div>
                 <CardTitle className="text-2xl md:text-3xl">Jingpian 工作台</CardTitle>
                 <CardDescription className="mt-3 max-w-[56ch] text-sm leading-7 md:text-[15px]">
                   把 brief、分镜、关键帧和视频任务放在同一个评审界面里。先判断结构，再进入样片生产。
                 </CardDescription>
+                {!subscription.isPremium && (
+                  <CardDescription className="mt-2 text-sm leading-7">
+                    你当前在免费计划。升级后可解锁团队协作和更高配额。<Link href="/pricing" className="ml-1 underline-offset-4 hover:underline">查看套餐</Link>
+                  </CardDescription>
+                )}
+                {subscription.source === "fallback" && (
+                  <CardDescription className="mt-2 text-sm leading-7">
+                    当前展示的是订阅占位状态：未接入 Stripe 持久化前，计划默认显示为 free，便于先验证工作台流程。
+                  </CardDescription>
+                )}
               </div>
             </CardHeader>
             <CardContent className="grid gap-5">
