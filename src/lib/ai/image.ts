@@ -98,15 +98,16 @@ async function requestSingleGatewayImage(prompt: string, aspectRatio: string) {
 export async function generateStoryboardImages(
   input: ImageRequest,
 ): Promise<ImageGenerationResponse> {
-  const canUseGateway = hasGateway();
   const canUseOpenRouter = hasOpenRouter();
+  const canUseGateway = hasGateway();
 
   if (!canUseGateway && !canUseOpenRouter) {
     return buildDemoImages(input.frames);
   }
 
   const demo = buildDemoImages(input.frames);
-  const provider = canUseGateway ? "ai-gateway" : "openrouter";
+  const useOpenRouter = canUseOpenRouter;
+  const provider = useOpenRouter ? "openrouter" : "ai-gateway";
   const model = getImageModel();
 
   try {
@@ -119,9 +120,9 @@ export async function generateStoryboardImages(
           "请保持真实、可拍摄、适合中国商业内容提案，不要过度 AI 风格化。",
         ].join("，");
 
-        const liveUrl = await (canUseGateway
-          ? requestSingleGatewayImage(prompt, input.aspectRatio)
-          : requestSingleImage(prompt)
+        const liveUrl = await (useOpenRouter
+          ? requestSingleImage(prompt)
+          : requestSingleGatewayImage(prompt, input.aspectRatio)
         ).catch(() => null);
 
         return {

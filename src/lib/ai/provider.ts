@@ -9,7 +9,6 @@ export function getCompatibleApiKey() {
   return (
     process.env.AI_COMPATIBLE_API_KEY ||
     process.env.OPENROUTER_API_KEY ||
-    process.env.AI_GATEWAY_API_KEY ||
     ""
   );
 }
@@ -59,6 +58,10 @@ export function getGatewayImageModel() {
 }
 
 export function getImageModel() {
+  if (hasOpenRouter()) {
+    return process.env.OPENROUTER_IMAGE_MODEL || "openai/gpt-5.4-image-2";
+  }
+
   if (hasGateway()) {
     return getGatewayImageModel();
   }
@@ -75,12 +78,12 @@ export function getOpenRouterVideoModel() {
 }
 
 export function getVideoModel() {
-  if (hasGateway()) {
-    return getGatewayVideoModel();
-  }
-
   if (hasOpenRouter()) {
     return getOpenRouterVideoModel();
+  }
+
+  if (hasGateway()) {
+    return getGatewayVideoModel();
   }
 
   return "jingpian-demo-video";

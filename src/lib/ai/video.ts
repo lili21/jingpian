@@ -45,8 +45,8 @@ function normalizeStatus(value: string | undefined): VideoJobResponse["status"] 
 }
 
 export async function submitVideoJob(input: VideoRequest): Promise<VideoJobResponse> {
-  const canUseGateway = hasGateway();
   const canUseOpenRouter = hasOpenRouter();
+  const canUseGateway = hasGateway();
 
   if (!canUseGateway && !canUseOpenRouter) {
     return getDemoVideoJob(createDemoVideoJobId());
@@ -61,63 +61,63 @@ export async function submitVideoJob(input: VideoRequest): Promise<VideoJobRespo
   ].join("\n");
 
   try {
-    if (canUseGateway) {
-      const result = await experimental_generateVideo({
-        model: gateway.videoModel(getGatewayVideoModel()),
-        prompt,
-        aspectRatio: input.aspectRatio as `${number}:${number}`,
-        duration: input.durationSeconds,
+    if (canUseOpenRouter) {
+      const response = await fetch(`${getOpenRouterBaseUrl()}/videos`, {
+        method: "POST",
+        headers: openRouterHeaders(),
+        body: JSON.stringify({
+          model: getOpenRouterVideoModel(),
+          prompt,
+          aspect_ratio: input.aspectRatio,
+          duration: input.durationSeconds,
+          resolution: "720p",
+        }),
       });
 
-      const video = result.videos[0];
-      const videoUrl = video ? `data:${video.mediaType};base64,${video.base64}` : undefined;
-      const jobId = createDemoVideoJobId();
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`video submit failed: ${response.status} ${text}`);
+      }
+
+      const data = await response.json();
+      const jobId = pickString(data, ["id", "jobid", "job_id"]) || createDemoVideoJobId();
+      const pollingUrl =
+        pickString(data, ["polling_url", "pollingurl"]) || `/api/videos/${jobId}`;
+      const status = normalizeStatus(pickString(data, ["status", "state"]) || "queued");
 
       return {
         mode: "live",
-        provider: "ai-gateway",
-        model: getGatewayVideoModel(),
+        provider: "openrouter",
+        model: getOpenRouterVideoModel(),
         jobId,
-        status: videoUrl ? "completed" : "processing",
-        pollingUrl: `/api/videos/${jobId}`,
-        message: videoUrl
-          ? "视频已生成，可继续做复核或二次调整。"
-          : "视频任务已提交，工作台会自动轮询状态。",
-        videoUrl,
+        status,
+        pollingUrl,
+        message: "视频任务已提交，工作台会自动轮询状态。",
       };
     }
 
-    const response = await fetch(`${getOpenRouterBaseUrl()}/videos`, {
-      method: "POST",
-      headers: openRouterHeaders(),
-      body: JSON.stringify({
-        model: getOpenRouterVideoModel(),
-        prompt,
-        aspect_ratio: input.aspectRatio,
-        duration: input.durationSeconds,
-        resolution: "720p",
-      }),
+    const result = await experimental_generateVideo({
+      model: gateway.videoModel(getGatewayVideoModel()),
+      prompt,
+      aspectRatio: input.aspectRatio as `${number}:${number}`,
+      duration: input.durationSeconds,
     });
 
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`video submit failed: ${response.status} ${text}`);
-    }
-
-    const data = await response.json();
-    const jobId = pickString(data, ["id", "jobid", "job_id"]) || createDemoVideoJobId();
-    const pollingUrl =
-      pickString(data, ["polling_url", "pollingurl"]) || `/api/videos/${jobId}`;
-    const status = normalizeStatus(pickString(data, ["status", "state"]) || "queued");
+    const video = result.videos[0];
+    const videoUrl = video ? `data:${video.mediaType};base64,${video.base64}` : undefined;
+    const jobId = createDemoVideoJobId();
 
     return {
       mode: "live",
-      provider: "openrouter",
-      model: getOpenRouterVideoModel(),
+      provider: "ai-gateway",
+      model: getGatewayVideoModel(),
       jobId,
-      status,
-      pollingUrl,
-      message: "视频任务已提交，工作台会自动轮询状态。",
+      status: videoUrl ? "completed" : "processing",
+      pollingUrl: `/api/videos/${jobId}`,
+      message: videoUrl
+        ? "视频已生成，可继续做复核或二次调整。"
+        : "视频任务已提交，工作台会自动轮询状态。",
+      videoUrl,
     };
   } catch (error) {
     console.error("video submit failed", error);
