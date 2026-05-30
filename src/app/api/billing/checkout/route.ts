@@ -51,11 +51,17 @@ export async function POST() {
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customer?.id,
+    client_reference_id: session.user.id,
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${baseUrl}/workspace?billing=success`,
     cancel_url: `${baseUrl}/pricing?billing=cancelled`,
     metadata: {
       appUserId: session.user.id,
+    },
+    subscription_data: {
+      metadata: {
+        appUserId: session.user.id,
+      },
     },
   });
 

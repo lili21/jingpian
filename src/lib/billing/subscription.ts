@@ -1,5 +1,6 @@
 import { cache } from "react";
 
+import { getAuthDb } from "@/lib/auth";
 import { getServerSession } from "@/lib/session";
 import { isStripeConfigured } from "@/lib/billing/stripe";
 
@@ -23,10 +24,23 @@ export const getSubscriptionState = cache(async (): Promise<SubscriptionState> =
     };
   }
 
+  const row = getAuthDb()
+    .prepare(
+      `SELECT plan, status
+       FROM user_subscription
+       WHERE userId = ?`,
+    )
+    .get(session.user.id) as { plan?: string; status?: string } | undefined;
+
+  const isPremium =
+    row?.plan === "premium" ||
+    row?.status === "active" ||
+    row?.status === "trialing";
+
   return {
     isSignedIn: true,
-    isPremium: false,
-    plan: "free",
+    isPremium,
+    plan: isPremium ? "premium" : "free",
     source,
   };
 });
