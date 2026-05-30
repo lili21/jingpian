@@ -165,4 +165,161 @@
   .fine-rule {
     @apply h-px w-full bg-border/80;
   }
+
+  .landing-root {
+    @apply relative overflow-hidden pb-16 md:pb-24;
+  }
+
+  .landing-root::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10% auto;
+    height: 520px;
+    background:
+      radial-gradient(40% 50% at 20% 40%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%),
+      radial-gradient(45% 60% at 80% 30%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 72%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .landing-hero,
+  .landing-showcase-head,
+  .landing-showcase-grid,
+  .landing-end-cta {
+    position: relative;
+    z-index: 1;
+  }
+
+  .landing-hero {
+    @apply pb-8 md:pb-12;
+  }
+
+  .landing-hero-inner {
+    @apply mx-auto grid max-w-[860px] gap-6 text-center;
+  }
+
+  .landing-brand {
+    @apply text-sm font-semibold tracking-[0.18em] uppercase text-muted-foreground;
+  }
+
+  .landing-title {
+    font-size: clamp(2.1rem, 5vw, 4.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .landing-subtitle {
+    @apply mx-auto max-w-[60ch] text-base leading-8 text-muted-foreground md:text-lg;
+  }
+
+  .landing-composer {
+    @apply mx-auto mt-2 grid w-full max-w-[780px] gap-4 rounded-[30px] border border-white/80 bg-white/90 p-4 shadow-[var(--shadow-card)] backdrop-blur-sm md:p-5;
+  }
+
+  .landing-composer-input {
+    @apply min-h-[156px] w-full resize-none rounded-[20px] border border-border/80 bg-secondary/25 px-4 py-3 text-[15px] leading-7 text-foreground outline-none;
+  }
+
+  .landing-composer-input::placeholder {
+    color: color-mix(in srgb, var(--muted-foreground) 82%, white);
+  }
+
+  .landing-composer-foot {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .landing-composer-hint {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .landing-submit {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/92 disabled:cursor-not-allowed disabled:opacity-70;
+  }
+
+  .landing-presets {
+    @apply mx-auto mt-1 flex w-full max-w-[780px] flex-wrap justify-center gap-2.5;
+  }
+
+  .landing-preset-chip {
+    @apply rounded-full border border-border/80 bg-white/88 px-4 py-2 text-sm text-foreground hover:bg-white;
+  }
+
+  .landing-showcase-head {
+    @apply mx-auto mb-5 grid max-w-[980px] gap-2 text-center md:mb-6;
+  }
+
+  .landing-showcase-title {
+    @apply text-2xl font-semibold tracking-[-0.03em] md:text-3xl;
+  }
+
+  .landing-showcase-note {
+    @apply mx-auto text-sm text-muted-foreground;
+  }
+
+  .landing-showcase-grid {
+    @apply mx-auto grid max-w-[1080px] gap-4 md:grid-cols-3;
+  }
+
+  .landing-showcase-card {
+    @apply grid gap-3 rounded-[24px] border border-white/80 bg-white/90 p-5 shadow-[var(--shadow-soft)];
+  }
+
+  .landing-showcase-kicker {
+    @apply text-[11px] font-semibold tracking-[0.16em] uppercase text-muted-foreground;
+  }
+
+  .landing-showcase-card-title {
+    @apply text-xl font-semibold tracking-[-0.03em];
+  }
+
+  .landing-showcase-brief {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .landing-showcase-steps {
+    @apply grid gap-2;
+  }
+
+  .landing-showcase-steps p {
+    @apply rounded-2xl border border-border/70 bg-secondary/35 px-3 py-2 text-sm text-foreground;
+  }
+
+  .landing-end-cta {
+    @apply mt-8 flex flex-wrap items-center justify-center gap-3;
+  }
+
+  .landing-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.74);
+    backdrop-filter: blur(6px);
+  }
+
+  .landing-loading-panel {
+    @apply grid w-[min(92vw,460px)] gap-4 rounded-[24px] border border-white/80 bg-white p-5 shadow-[var(--shadow-card)];
+  }
+
+  .landing-loading-title-wrap {
+    @apply flex items-center gap-2 text-foreground;
+  }
+
+  .landing-loading-title {
+    @apply text-base font-semibold tracking-[-0.02em];
+  }
+
+  .landing-loading-steps {
+    @apply grid gap-2;
+  }
+
+  .landing-loading-step {
+    @apply rounded-xl border border-border/70 bg-secondary/28 px-3 py-2 text-sm text-muted-foreground;
+  }
+
+  .landing-loading-step.is-active {
+    @apply border-primary/30 bg-primary/10 text-foreground;
+  }
 }
