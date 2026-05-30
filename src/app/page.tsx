@@ -194,21 +194,21 @@ export default function Home() {
           </div>
           <div className="hidden items-center gap-5 text-sm text-zinc-400 md:flex">
             <Link href="/workspace" className="hover:text-zinc-100">
-              工作台
+              Workspace
             </Link>
             <Link href="/pricing" className="hover:text-zinc-100">
-              套餐
+              Pricing
             </Link>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/sign-in" className="rounded-full px-3 py-1.5 text-sm text-zinc-400 hover:text-zinc-100">
-              登录
+              Sign in
             </Link>
             <Link
               href="/workspace"
               className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-3.5 py-1.5 text-sm font-semibold text-zinc-950 hover:bg-amber-300"
             >
-              免费试做
+              Start Free
               <ArrowRight className="size-3.5" />
             </Link>
           </div>
@@ -228,13 +228,10 @@ export default function Home() {
               Storyboard First Workflow
             </p>
             <h1 className={`${displayFont.className} text-balance text-[clamp(2.3rem,5vw,4.6rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-zinc-50`}>
-              先过分镜评审，
-              <br className="hidden md:block" />
-              再把每一秒预算花在对的镜头上。
+              Storyboard. Then Shoot.
             </h1>
             <p className="mx-auto max-w-[64ch] text-base leading-8 text-zinc-300 md:text-lg">
-              Jingpian 把你的商业目标翻译成可讨论、可修改、可交付的镜头结构。
-              在真正开拍之前，就把方向、节奏和卖点在团队内一次对齐。
+              Turn marketing intent into reviewable scenes before production starts.
             </p>
 
             <form
@@ -275,7 +272,7 @@ export default function Home() {
                   disabled={!canSubmit || isSubmitting}
                 >
                   {isSubmitting ? <LoaderCircle className="size-4 animate-spin" /> : null}
-                  生成首版分镜
+                  Generate Storyboard
                   <ArrowRight className="size-4" />
                 </button>
               </div>
@@ -373,20 +370,20 @@ export default function Home() {
               href="/workspace"
               className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-zinc-950 hover:bg-amber-300"
             >
-              免费进入工作台
+              Enter Workspace
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/pricing"
               className="rounded-full border border-white/16 bg-zinc-900 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-zinc-800"
             >
-              查看定价方案
+              View Pricing
             </Link>
             <Link
               href="/sign-in"
               className="rounded-full border border-white/16 bg-zinc-900 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-zinc-800"
             >
-              登录继续创作
+              Sign In
             </Link>
           </div>
         </div>

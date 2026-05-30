@@ -180,16 +180,19 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
   ];
 
   return (
-    <main className="section-shell">
-      <div className="page-shell grid gap-8 xl:grid-cols-[0.95fr_1.2fr]">
+    <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
+      <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
+      <div className="page-shell relative z-10 grid gap-8 py-16 xl:grid-cols-[0.95fr_1.2fr]">
         <div className="grid gap-5 self-start xl:sticky xl:top-8">
-          <Card className="border-white/70 bg-white/90 shadow-[var(--shadow-card)]">
+          <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
             <CardHeader className="gap-4">
               <div className="flex flex-wrap items-center gap-3">
-                <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100">
                   <ArrowLeft className="size-4" /> 返回首页
                 </Link>
-                <Badge variant="outline" className="rounded-full border-border/80 bg-white px-3 py-1 text-[11px] tracking-[0.16em] uppercase">
+                <Badge variant="outline" className="rounded-full border-white/20 bg-zinc-900 px-3 py-1 text-[11px] tracking-[0.16em] uppercase text-zinc-200">
                   Workspace
                 </Badge>
                 <Badge variant={subscription.isPremium ? "default" : "outline"} className="rounded-full px-3 py-1 text-[11px] tracking-[0.16em] uppercase">
@@ -201,7 +204,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
               </div>
               <div>
                 <CardTitle className="text-2xl md:text-3xl">Jingpian 工作台</CardTitle>
-                <CardDescription className="mt-3 max-w-[56ch] text-sm leading-7 md:text-[15px]">
+                 <CardDescription className="mt-3 max-w-[56ch] text-sm leading-7 text-zinc-300 md:text-[15px]">
                   把 brief、分镜、关键帧和视频任务放在同一个评审界面里。先判断结构，再进入样片生产。
                 </CardDescription>
                 {!subscription.isPremium && (
@@ -221,9 +224,9 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 {progressItems.map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center justify-between rounded-2xl border border-border/80 bg-secondary/45 px-4 py-3"
+                    className="flex items-center justify-between rounded-2xl border border-white/12 bg-zinc-800/45 px-4 py-3"
                   >
-                    <span className="text-sm text-foreground">{item.label}</span>
+                    <span className="text-sm text-zinc-100">{item.label}</span>
                     <Badge
                       variant={item.done ? "default" : "outline"}
                       className="rounded-full px-2.5 py-1"
@@ -235,50 +238,50 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
               </div>
 
               <div className="grid gap-3">
-                <label className="grid gap-2 text-sm font-medium text-foreground">
+                <label className="grid gap-2 text-sm font-medium text-zinc-100">
                   项目简报
                   <Textarea
                     value={form.brief}
                     onChange={(event) => setForm((prev) => ({ ...prev, brief: event.target.value }))}
-                    className="min-h-34 rounded-[18px] border-border/80 bg-white text-sm leading-7 shadow-none"
+                    className="min-h-34 rounded-[18px] border-white/15 bg-zinc-950/70 text-sm leading-7 text-zinc-100 shadow-none"
                   />
                 </label>
-                <label className="grid gap-2 text-sm font-medium text-foreground">
+                <label className="grid gap-2 text-sm font-medium text-zinc-100">
                   目标受众
                   <Input
                     value={form.audience}
                     onChange={(event) => setForm((prev) => ({ ...prev, audience: event.target.value }))}
-                    className="h-11 rounded-[16px] border-border/80 bg-white shadow-none"
+                    className="h-11 rounded-[16px] border-white/15 bg-zinc-950/70 text-zinc-100 shadow-none"
                   />
                 </label>
                 <div className="grid gap-3 md:grid-cols-2">
-                  <label className="grid gap-2 text-sm font-medium text-foreground">
+                  <label className="grid gap-2 text-sm font-medium text-zinc-100">
                     使用场景
                     <Input
                       value={form.scenario}
                       onChange={(event) => setForm((prev) => ({ ...prev, scenario: event.target.value }))}
-                      className="h-11 rounded-[16px] border-border/80 bg-white shadow-none"
+                      className="h-11 rounded-[16px] border-white/15 bg-zinc-950/70 text-zinc-100 shadow-none"
                     />
                   </label>
-                  <label className="grid gap-2 text-sm font-medium text-foreground">
+                  <label className="grid gap-2 text-sm font-medium text-zinc-100">
                     风格要求
                     <Input
                       value={form.style}
                       onChange={(event) => setForm((prev) => ({ ...prev, style: event.target.value }))}
-                      className="h-11 rounded-[16px] border-border/80 bg-white shadow-none"
+                      className="h-11 rounded-[16px] border-white/15 bg-zinc-950/70 text-zinc-100 shadow-none"
                     />
                   </label>
                 </div>
                 <div className="grid gap-3 md:grid-cols-[1fr_120px_120px]">
-                  <label className="grid gap-2 text-sm font-medium text-foreground">
+                  <label className="grid gap-2 text-sm font-medium text-zinc-100">
                     当前目标
                     <Input
                       value={form.objective}
                       onChange={(event) => setForm((prev) => ({ ...prev, objective: event.target.value }))}
-                      className="h-11 rounded-[16px] border-border/80 bg-white shadow-none"
+                      className="h-11 rounded-[16px] border-white/15 bg-zinc-950/70 text-zinc-100 shadow-none"
                     />
                   </label>
-                  <label className="grid gap-2 text-sm font-medium text-foreground">
+                  <label className="grid gap-2 text-sm font-medium text-zinc-100">
                     时长
                     <Input
                       type="number"
@@ -291,17 +294,17 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                           durationSeconds: Number(event.target.value) || 20,
                         }))
                       }
-                      className="h-11 rounded-[16px] border-border/80 bg-white shadow-none"
+                      className="h-11 rounded-[16px] border-white/15 bg-zinc-950/70 text-zinc-100 shadow-none"
                     />
                   </label>
-                  <label className="grid gap-2 text-sm font-medium text-foreground">
+                  <label className="grid gap-2 text-sm font-medium text-zinc-100">
                     画幅
                     <select
                       value={form.aspectRatio}
                       onChange={(event) =>
                         setForm((prev) => ({ ...prev, aspectRatio: event.target.value }))
                       }
-                      className="h-11 rounded-[16px] border border-border/80 bg-white px-3 text-sm shadow-none outline-none"
+                      className="h-11 rounded-[16px] border border-white/15 bg-zinc-950/70 px-3 text-sm text-zinc-100 shadow-none outline-none"
                     >
                       <option value="16:9">16:9</option>
                       <option value="9:16">9:16</option>
@@ -311,30 +314,30 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="grid gap-3 border-t border-border/70 bg-secondary/35 md:grid-cols-3">
+            <CardFooter className="grid gap-3 border-t border-white/10 bg-zinc-950/45 md:grid-cols-3">
               <Button
                 onClick={handleStoryboardSubmit}
-                className="h-11 rounded-full"
+                className="h-11 rounded-full bg-amber-400 text-zinc-950 hover:bg-amber-300"
                 disabled={loading !== null}
               >
                 {loading === "storyboard" ? <LoaderCircle className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
                 生成分镜
               </Button>
-              <Button
-                variant="outline"
-                onClick={handleGenerateImages}
-                className="h-11 rounded-full bg-white"
-                disabled={loading !== null || !storyboard}
-              >
+                <Button
+                  variant="outline"
+                  onClick={handleGenerateImages}
+                  className="h-11 rounded-full border-white/20 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
+                  disabled={loading !== null || !storyboard}
+                >
                 {loading === "images" ? <LoaderCircle className="size-4 animate-spin" /> : <ImageIcon className="size-4" />}
                 生成关键帧
               </Button>
-              <Button
-                variant="outline"
-                onClick={handleCreateVideo}
-                className="h-11 rounded-full bg-white"
-                disabled={loading !== null || !storyboard}
-              >
+                <Button
+                  variant="outline"
+                  onClick={handleCreateVideo}
+                  className="h-11 rounded-full border-white/20 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
+                  disabled={loading !== null || !storyboard}
+                >
                 {loading === "video" ? <LoaderCircle className="size-4 animate-spin" /> : <Video className="size-4" />}
                 提交视频任务
               </Button>
@@ -348,11 +351,11 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="grid gap-5"
         >
-          <Card className="border-white/70 bg-white/90 shadow-[var(--shadow-card)]">
+          <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
             <CardContent className="grid gap-5 py-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm text-muted-foreground">当前工作状态</p>
+                  <p className="text-sm text-zinc-400">当前工作状态</p>
                   <h1 className="mt-2 text-3xl font-semibold tracking-[-0.04em] md:text-[2.5rem]">
                     从业务简报到样片任务的一条线视图
                   </h1>
@@ -366,36 +369,36 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 <button
                   type="button"
                   onClick={() => setActivePanel("storyboard")}
-                  className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "storyboard" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-secondary/35"}`}
+                    className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "storyboard" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Clapperboard className="size-4" /> 分镜
                   </div>
-                  <p className={`mt-3 text-sm leading-6 ${activePanel === "storyboard" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                  <p className={`mt-3 text-sm leading-6 ${activePanel === "storyboard" ? "text-zinc-200" : "text-zinc-400"}`}>
                     结构、口播、评审备注
                   </p>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActivePanel("images")}
-                  className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "images" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-secondary/35"}`}
+                    className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "images" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <ImageIcon className="size-4" /> 关键帧
                   </div>
-                  <p className={`mt-3 text-sm leading-6 ${activePanel === "images" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                  <p className={`mt-3 text-sm leading-6 ${activePanel === "images" ? "text-zinc-200" : "text-zinc-400"}`}>
                     用图像验证气质与镜头方向
                   </p>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActivePanel("video")}
-                  className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "video" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-secondary/35"}`}
+                    className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "video" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Video className="size-4" /> 视频任务
                   </div>
-                  <p className={`mt-3 text-sm leading-6 ${activePanel === "video" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                  <p className={`mt-3 text-sm leading-6 ${activePanel === "video" ? "text-zinc-200" : "text-zinc-400"}`}>
                     异步提交、轮询状态、等待回传
                   </p>
                 </button>
@@ -404,7 +407,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           </Card>
 
           {activePanel === "storyboard" && (
-            <Card className="border-white/70 bg-white/90 shadow-[var(--shadow-card)]">
+            <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
                 <CardTitle>分镜输出</CardTitle>
                 <CardDescription>
@@ -415,19 +418,19 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!storyboard ? (
-                  <div className="rounded-[24px] border border-dashed border-border bg-secondary/30 px-6 py-10 text-sm leading-7 text-muted-foreground">
+                   <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
                     还没有生成分镜。建议先从一个真实 brief 开始，例如新品上新、招商活动、投放前方向验证。
                   </div>
                 ) : (
                   <>
-                    <div className="grid gap-4 rounded-[24px] border border-border/80 bg-secondary/35 p-5 md:grid-cols-[1.2fr_0.8fr]">
+                     <div className="grid gap-4 rounded-[24px] border border-white/12 bg-zinc-800/45 p-5 md:grid-cols-[1.2fr_0.8fr]">
                       <div>
-                        <p className="text-sm font-medium text-foreground">简报摘要</p>
-                        <p className="mt-3 text-sm leading-7 text-muted-foreground">{storyboard.briefSummary}</p>
+                         <p className="text-sm font-medium text-zinc-100">简报摘要</p>
+                         <p className="mt-3 text-sm leading-7 text-zinc-300">{storyboard.briefSummary}</p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-foreground">创意方向</p>
-                        <p className="mt-3 text-sm leading-7 text-muted-foreground">{storyboard.creativeDirection}</p>
+                         <p className="text-sm font-medium text-zinc-100">创意方向</p>
+                         <p className="mt-3 text-sm leading-7 text-zinc-300">{storyboard.creativeDirection}</p>
                       </div>
                     </div>
                     <div className="grid gap-4">
@@ -437,34 +440,34 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.22, delay: index * 0.04 }}
-                          className="rounded-[26px] border border-border/80 bg-white p-5 shadow-[var(--shadow-soft)]"
+                           className="rounded-[26px] border border-white/12 bg-zinc-950/70 p-5"
                         >
                           <div className="flex flex-wrap items-center gap-3">
                             <Badge variant="outline" className="rounded-full px-2.5 py-1">{frame.id}</Badge>
                             <h3 className="text-xl font-semibold tracking-[-0.03em]">{frame.title}</h3>
-                            <span className="text-sm text-muted-foreground">{frame.durationSeconds}s · {frame.shotType}</span>
+                             <span className="text-sm text-zinc-400">{frame.durationSeconds}s · {frame.shotType}</span>
                           </div>
                           <div className="mt-4 grid gap-4 md:grid-cols-2">
-                            <div className="grid gap-3 text-sm leading-7 text-muted-foreground">
-                              <p><span className="font-medium text-foreground">镜头目标：</span>{frame.goal}</p>
-                              <p><span className="font-medium text-foreground">画面描述：</span>{frame.visualPrompt}</p>
-                              <p><span className="font-medium text-foreground">口播：</span>{frame.voiceover}</p>
-                            </div>
-                            <div className="grid gap-3 text-sm leading-7 text-muted-foreground">
-                              <p><span className="font-medium text-foreground">屏幕文案：</span>{frame.onScreenText}</p>
-                              <p><span className="font-medium text-foreground">转场：</span>{frame.transition}</p>
-                              <p><span className="font-medium text-foreground">评审备注：</span>{frame.notes}</p>
-                            </div>
+                             <div className="grid gap-3 text-sm leading-7 text-zinc-300">
+                               <p><span className="font-medium text-zinc-100">镜头目标：</span>{frame.goal}</p>
+                               <p><span className="font-medium text-zinc-100">画面描述：</span>{frame.visualPrompt}</p>
+                               <p><span className="font-medium text-zinc-100">口播：</span>{frame.voiceover}</p>
+                             </div>
+                             <div className="grid gap-3 text-sm leading-7 text-zinc-300">
+                               <p><span className="font-medium text-zinc-100">屏幕文案：</span>{frame.onScreenText}</p>
+                               <p><span className="font-medium text-zinc-100">转场：</span>{frame.transition}</p>
+                               <p><span className="font-medium text-zinc-100">评审备注：</span>{frame.notes}</p>
+                             </div>
                           </div>
                         </motion.div>
                       ))}
                     </div>
                     <Separator />
-                    <div className="grid gap-3 text-sm leading-7 text-muted-foreground">
-                      <p className="font-medium text-foreground">评审建议</p>
+                     <div className="grid gap-3 text-sm leading-7 text-zinc-300">
+                       <p className="font-medium text-zinc-100">评审建议</p>
                       <ul className="grid gap-2">
                         {storyboard.reviewGuidance.map((item) => (
-                          <li key={item} className="rounded-2xl border border-border/70 bg-secondary/30 px-4 py-3">
+                           <li key={item} className="rounded-2xl border border-white/12 bg-zinc-800/40 px-4 py-3">
                             {item}
                           </li>
                         ))}
@@ -477,7 +480,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           )}
 
           {activePanel === "images" && (
-            <Card className="border-white/70 bg-white/90 shadow-[var(--shadow-card)]">
+             <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
                 <CardTitle>关键帧预览</CardTitle>
                 <CardDescription>
@@ -488,13 +491,13 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!images ? (
-                  <div className="rounded-[24px] border border-dashed border-border bg-secondary/30 px-6 py-10 text-sm leading-7 text-muted-foreground">
+                   <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
                     还没有关键帧。你可以先生成分镜，再调用图像生成路径确认每一帧的视觉气质。
                   </div>
                 ) : (
                   <div className="grid gap-4 md:grid-cols-2">
                     {images.images.map((image) => (
-                      <div key={image.id} className="overflow-hidden rounded-[26px] border border-border/80 bg-card shadow-[var(--shadow-soft)]">
+                       <div key={image.id} className="overflow-hidden rounded-[26px] border border-white/12 bg-zinc-950/70">
                         <Image
                           src={image.url}
                           alt={image.title}
@@ -510,7 +513,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                               {image.source}
                             </Badge>
                           </div>
-                          <p className="text-sm leading-7 text-muted-foreground">{image.prompt}</p>
+                           <p className="text-sm leading-7 text-zinc-300">{image.prompt}</p>
                         </div>
                       </div>
                     ))}
@@ -521,7 +524,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           )}
 
           {activePanel === "video" && (
-            <Card className="border-white/70 bg-white/90 shadow-[var(--shadow-card)]">
+             <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
                 <CardTitle>视频任务状态</CardTitle>
                 <CardDescription>
@@ -532,16 +535,16 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!videoJob ? (
-                  <div className="rounded-[24px] border border-dashed border-border bg-secondary/30 px-6 py-10 text-sm leading-7 text-muted-foreground">
+                   <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
                     还没有视频任务。建议在分镜和关键帧确认后再提交视频生成，避免把问题留到最后一步。
                   </div>
                 ) : (
                   <>
-                    <div className="grid gap-4 rounded-[24px] border border-border/80 bg-secondary/35 p-5 md:grid-cols-[1fr_auto] md:items-center">
+                     <div className="grid gap-4 rounded-[24px] border border-white/12 bg-zinc-800/45 p-5 md:grid-cols-[1fr_auto] md:items-center">
                       <div className="grid gap-2">
-                        <p className="text-sm font-medium text-foreground">Job ID</p>
-                        <p className="font-mono text-sm text-muted-foreground">{videoJob.jobId}</p>
-                        <p className="text-sm leading-7 text-muted-foreground">{videoJob.message}</p>
+                         <p className="text-sm font-medium text-zinc-100">Job ID</p>
+                         <p className="font-mono text-sm text-zinc-400">{videoJob.jobId}</p>
+                         <p className="text-sm leading-7 text-zinc-300">{videoJob.message}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
                         <Badge className="rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.14em]">
@@ -550,7 +553,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                         {videoJob.status !== "completed" && (
                           <Button
                             variant="outline"
-                            className="rounded-full bg-white"
+                            className="rounded-full border-white/20 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
                             onClick={async () => {
                               const next = await getJson<VideoJobResponse>(videoJob.pollingUrl);
                               setVideoJob(next);
@@ -563,7 +566,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     </div>
 
                     {videoJob.videoUrl ? (
-                      <div className="overflow-hidden rounded-[26px] border border-border/80 bg-card shadow-[var(--shadow-soft)]">
+                       <div className="overflow-hidden rounded-[26px] border border-white/12 bg-zinc-950/70">
                         <video
                           className="aspect-video w-full bg-black/10 object-cover"
                           controls
@@ -571,14 +574,14 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                           poster={videoJob.thumbnailUrl}
                           src={videoJob.videoUrl}
                         />
-                        <div className="grid gap-2 p-4 text-sm leading-7 text-muted-foreground">
+                        <div className="grid gap-2 p-4 text-sm leading-7 text-zinc-300">
                           <p>
                             当前界面已经具备异步任务和状态轮询结构。后续接入真实模型后，可以继续补“版本复核”、“导出交付单”和“投放建议”。
                           </p>
                         </div>
                       </div>
                     ) : (
-                      <div className="rounded-[24px] border border-border/80 bg-white p-6 text-sm leading-7 text-muted-foreground">
+                       <div className="rounded-[24px] border border-white/12 bg-zinc-950/70 p-6 text-sm leading-7 text-zinc-300">
                         视频还未回传。工作台会继续轮询状态，一旦完成就会在这里显示预览。
                       </div>
                     )}
