@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const storyboardRequestSchema = z.object({
-  brief: z.string().min(12, "请至少输入 12 个字符的项目简报。"),
-  audience: z.string().min(2).default("泛人群"),
-  scenario: z.string().min(2).default("信息流投放"),
-  style: z.string().min(2).default("高级、克制、可信"),
-  objective: z.string().min(2).default("先评审结构，再进入样片阶段"),
+  brief: z.string().min(12, "Please enter at least 12 characters for the project brief."),
+  audience: z.string().min(2).default("General audience"),
+  scenario: z.string().min(2).default("Paid social distribution"),
+  style: z.string().min(2).default("Premium, restrained, credible"),
+  objective: z.string().min(2).default("Review structure first, then produce"),
   durationSeconds: z.number().int().min(6).max(60).default(20),
   aspectRatio: z.string().default("16:9"),
 });
@@ -37,7 +37,7 @@ export const storyboardResponseSchema = storyboardCoreSchema.extend({
 });
 
 export const imageRequestSchema = z.object({
-  style: z.string().default("高级、真实、可拍摄"),
+  style: z.string().default("Premium, realistic, production-ready"),
   aspectRatio: z.string().default("16:9"),
   frames: z.array(storyboardFrameSchema).min(1).max(8),
 });
@@ -59,7 +59,7 @@ export const imageGenerationResponseSchema = z.object({
 
 export const videoRequestSchema = z.object({
   brief: z.string().min(12),
-  style: z.string().default("高级、稳定、商业化"),
+  style: z.string().default("Premium, stable, commercial"),
   aspectRatio: z.string().default("16:9"),
   durationSeconds: z.number().int().min(4).max(20).default(8),
   frames: z.array(storyboardFrameSchema).min(1).max(8),

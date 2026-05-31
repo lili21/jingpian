@@ -43,11 +43,11 @@ type FormState = {
 
 const initialForm: FormState = {
   brief:
-    "为一款新上市的厨房小家电做 20 秒商业样片，目标是在投放前让品牌和电商团队先确认镜头结构与卖点节奏。",
-  audience: "品牌市场负责人 / 电商内容团队",
-  scenario: "信息流投放 + 内部评审",
-  style: "高级、克制、接近真实商业拍摄",
-  objective: "先确认创意方向与镜头结构，再进入样片制作",
+    "Create a 20-second commercial sample for a newly launched kitchen appliance. Goal: align scene structure and value pacing with brand and e-commerce teams before media spend.",
+  audience: "Brand marketing leads / e-commerce content team",
+  scenario: "Paid social distribution + internal review",
+  style: "Premium, restrained, close to real commercial shooting",
+  objective: "Validate creative direction and scene structure before production",
   durationSeconds: 20,
   aspectRatio: "16:9",
 };
@@ -64,7 +64,7 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "请求失败");
+    throw new Error(data.error || "Request failed");
   }
 
   return data as T;
@@ -74,7 +74,7 @@ async function getJson<T>(url: string): Promise<T> {
   const response = await fetch(url, { cache: "no-store" });
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.error || "轮询失败");
+    throw new Error(data.error || "Polling failed");
   }
   return data as T;
 }
@@ -97,7 +97,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
         const next = await getJson<VideoJobResponse>(videoJob.pollingUrl);
         setVideoJob(next);
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : "视频轮询失败");
+        toast.error(error instanceof Error ? error.message : "Video polling failed");
       }
     }, 2500);
 
@@ -116,9 +116,9 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
       setImages(null);
       setVideoJob(null);
       setActivePanel("storyboard");
-      toast.success(result.mode === "live" ? "已生成结构化分镜。" : "已生成演示分镜，可先验证流程。");
+      toast.success(result.mode === "live" ? "Structured storyboard generated." : "Demo storyboard generated for workflow validation.");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "分镜生成失败");
+      toast.error(error instanceof Error ? error.message : "Storyboard generation failed");
     } finally {
       setLoading(null);
     }
@@ -126,7 +126,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
 
   async function handleGenerateImages() {
     if (!storyboard) {
-      toast.error("请先生成分镜。");
+      toast.error("Generate a storyboard first.");
       return;
     }
 
@@ -139,9 +139,9 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
       });
       setImages(result);
       setActivePanel("images");
-      toast.success(result.mode === "live" ? "关键帧已生成。" : "已生成演示关键帧。");
+      toast.success(result.mode === "live" ? "Keyframes generated." : "Demo keyframes generated.");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "关键帧生成失败");
+      toast.error(error instanceof Error ? error.message : "Keyframe generation failed");
     } finally {
       setLoading(null);
     }
@@ -149,7 +149,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
 
   async function handleCreateVideo() {
     if (!storyboard) {
-      toast.error("请先生成分镜。 ");
+      toast.error("Generate a storyboard first.");
       return;
     }
 
@@ -164,19 +164,19 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
       });
       setVideoJob(result);
       setActivePanel("video");
-      toast.success(result.message || "视频任务已提交");
+      toast.success(result.message || "Video job submitted");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "视频任务提交失败");
+      toast.error(error instanceof Error ? error.message : "Video job submission failed");
     } finally {
       setLoading(null);
     }
   }
 
   const progressItems = [
-    { label: "简报输入", done: true },
-    { label: "分镜评审", done: Boolean(storyboard) },
-    { label: "关键帧确认", done: Boolean(images) },
-    { label: "视频任务", done: Boolean(videoJob) },
+    { label: "Brief Input", done: true },
+    { label: "Storyboard Review", done: Boolean(storyboard) },
+    { label: "Keyframe Validation", done: Boolean(images) },
+    { label: "Video Job", done: Boolean(videoJob) },
   ];
 
   return (
@@ -190,7 +190,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
             <CardHeader className="gap-4">
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100">
-                  <ArrowLeft className="size-4" /> 返回首页
+                  <ArrowLeft className="size-4" /> Back Home
                 </Link>
                 <Badge variant="outline" className="rounded-full border-white/20 bg-zinc-900 px-3 py-1 text-[11px] tracking-[0.16em] uppercase text-zinc-200">
                   Workspace
@@ -203,18 +203,19 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 </Badge>
               </div>
               <div>
-                <CardTitle className="text-2xl md:text-3xl">Jingpian 工作台</CardTitle>
+                <CardTitle className="text-2xl md:text-3xl">Jingpian Workspace</CardTitle>
                  <CardDescription className="mt-3 max-w-[56ch] text-sm leading-7 text-zinc-300 md:text-[15px]">
-                  把 brief、分镜、关键帧和视频任务放在同一个评审界面里。先判断结构，再进入样片生产。
+                  Keep brief input, storyboard review, keyframes, and video jobs in one operational view. Align structure first, then produce.
                 </CardDescription>
                 {!subscription.isPremium && (
                   <CardDescription className="mt-2 text-sm leading-7">
-                    你当前在免费计划。升级后可解锁团队协作和更高配额。<Link href="/pricing" className="ml-1 underline-offset-4 hover:underline">查看套餐</Link>
+                    You are currently on Free. Upgrade to unlock higher limits and team workflows.
+                    <Link href="/pricing" className="ml-1 underline-offset-4 hover:underline">View Pricing</Link>
                   </CardDescription>
                 )}
                 {subscription.source === "fallback" && (
                   <CardDescription className="mt-2 text-sm leading-7">
-                    当前展示的是订阅占位状态：未接入 Stripe 持久化前，计划默认显示为 free，便于先验证工作台流程。
+                    Subscription status is shown in fallback mode until Stripe persistence is connected.
                   </CardDescription>
                 )}
               </div>
@@ -231,7 +232,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                       variant={item.done ? "default" : "outline"}
                       className="rounded-full px-2.5 py-1"
                     >
-                      {item.done ? "已完成" : "待处理"}
+                      {item.done ? "Done" : "Pending"}
                     </Badge>
                   </div>
                 ))}
@@ -239,7 +240,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
 
               <div className="grid gap-3">
                 <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                  项目简报
+                  Project Brief
                   <Textarea
                     value={form.brief}
                     onChange={(event) => setForm((prev) => ({ ...prev, brief: event.target.value }))}
@@ -247,7 +248,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                   />
                 </label>
                 <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                  目标受众
+                  Audience
                   <Input
                     value={form.audience}
                     onChange={(event) => setForm((prev) => ({ ...prev, audience: event.target.value }))}
@@ -256,7 +257,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 </label>
                 <div className="grid gap-3 md:grid-cols-2">
                   <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                    使用场景
+                    Scenario
                     <Input
                       value={form.scenario}
                       onChange={(event) => setForm((prev) => ({ ...prev, scenario: event.target.value }))}
@@ -264,7 +265,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     />
                   </label>
                   <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                    风格要求
+                    Style
                     <Input
                       value={form.style}
                       onChange={(event) => setForm((prev) => ({ ...prev, style: event.target.value }))}
@@ -274,7 +275,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 </div>
                 <div className="grid gap-3 md:grid-cols-[1fr_120px_120px]">
                   <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                    当前目标
+                    Objective
                     <Input
                       value={form.objective}
                       onChange={(event) => setForm((prev) => ({ ...prev, objective: event.target.value }))}
@@ -282,7 +283,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     />
                   </label>
                   <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                    时长
+                    Duration
                     <Input
                       type="number"
                       min={6}
@@ -298,7 +299,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     />
                   </label>
                   <label className="grid gap-2 text-sm font-medium text-zinc-100">
-                    画幅
+                    Aspect Ratio
                     <select
                       value={form.aspectRatio}
                       onChange={(event) =>
@@ -321,7 +322,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 disabled={loading !== null}
               >
                 {loading === "storyboard" ? <LoaderCircle className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
-                生成分镜
+                Generate Storyboard
               </Button>
                 <Button
                   variant="outline"
@@ -330,7 +331,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                   disabled={loading !== null || !storyboard}
                 >
                 {loading === "images" ? <LoaderCircle className="size-4 animate-spin" /> : <ImageIcon className="size-4" />}
-                生成关键帧
+                Generate Keyframes
               </Button>
                 <Button
                   variant="outline"
@@ -339,7 +340,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                   disabled={loading !== null || !storyboard}
                 >
                 {loading === "video" ? <LoaderCircle className="size-4 animate-spin" /> : <Video className="size-4" />}
-                提交视频任务
+                Submit Video Job
               </Button>
             </CardFooter>
           </Card>
@@ -355,9 +356,9 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
             <CardContent className="grid gap-5 py-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm text-zinc-400">当前工作状态</p>
+                  <p className="text-sm text-zinc-400">Current Workflow Status</p>
                   <h1 className="mt-2 text-3xl font-semibold tracking-[-0.04em] md:text-[2.5rem]">
-                    从业务简报到样片任务的一条线视图
+                    One continuous view from brief to video job
                   </h1>
                 </div>
                 <Badge className="rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.14em]">
@@ -372,10 +373,10 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "storyboard" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
-                    <Clapperboard className="size-4" /> 分镜
+                    <Clapperboard className="size-4" /> Storyboard
                   </div>
                   <p className={`mt-3 text-sm leading-6 ${activePanel === "storyboard" ? "text-zinc-200" : "text-zinc-400"}`}>
-                    结构、口播、评审备注
+                    Structure, narration, and review notes
                   </p>
                 </button>
                 <button
@@ -384,10 +385,10 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "images" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
-                    <ImageIcon className="size-4" /> 关键帧
+                    <ImageIcon className="size-4" /> Keyframes
                   </div>
                   <p className={`mt-3 text-sm leading-6 ${activePanel === "images" ? "text-zinc-200" : "text-zinc-400"}`}>
-                    用图像验证气质与镜头方向
+                    Validate look, tone, and direction
                   </p>
                 </button>
                 <button
@@ -396,10 +397,10 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                     className={`rounded-[20px] border px-4 py-4 text-left ${activePanel === "video" ? "border-amber-400/50 bg-amber-500/20 text-zinc-100" : "border-white/12 bg-zinc-800/45"}`}
                 >
                   <div className="flex items-center gap-2 text-sm font-medium">
-                    <Video className="size-4" /> 视频任务
+                    <Video className="size-4" /> Video Job
                   </div>
                   <p className={`mt-3 text-sm leading-6 ${activePanel === "video" ? "text-zinc-200" : "text-zinc-400"}`}>
-                    异步提交、轮询状态、等待回传
+                    Async submission, polling, and delivery
                   </p>
                 </button>
               </div>
@@ -409,27 +410,27 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           {activePanel === "storyboard" && (
             <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
-                <CardTitle>分镜输出</CardTitle>
+                <CardTitle>Storyboard Output</CardTitle>
                 <CardDescription>
                   {storyboard
                     ? `${storyboard.provider} · ${storyboard.model}`
-                    : "先生成结构化分镜，工作台会把口播、镜头和评审备注放在同一层。"}
+                    : "Generate a structured storyboard first. Narration, shots, and review notes stay in one layer."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!storyboard ? (
                    <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
-                    还没有生成分镜。建议先从一个真实 brief 开始，例如新品上新、招商活动、投放前方向验证。
+                    No storyboard yet. Start with a real brief to validate direction before production.
                   </div>
                 ) : (
                   <>
                      <div className="grid gap-4 rounded-[24px] border border-white/12 bg-zinc-800/45 p-5 md:grid-cols-[1.2fr_0.8fr]">
                       <div>
-                         <p className="text-sm font-medium text-zinc-100">简报摘要</p>
+                         <p className="text-sm font-medium text-zinc-100">Brief Summary</p>
                          <p className="mt-3 text-sm leading-7 text-zinc-300">{storyboard.briefSummary}</p>
                       </div>
                       <div>
-                         <p className="text-sm font-medium text-zinc-100">创意方向</p>
+                         <p className="text-sm font-medium text-zinc-100">Creative Direction</p>
                          <p className="mt-3 text-sm leading-7 text-zinc-300">{storyboard.creativeDirection}</p>
                       </div>
                     </div>
@@ -444,28 +445,28 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                         >
                           <div className="flex flex-wrap items-center gap-3">
                             <Badge variant="outline" className="rounded-full px-2.5 py-1">{frame.id}</Badge>
-                            <h3 className="text-xl font-semibold tracking-[-0.03em]">{frame.title}</h3>
+                           <h3 className="text-xl font-semibold tracking-[-0.03em]">{frame.title}</h3>
                              <span className="text-sm text-zinc-400">{frame.durationSeconds}s · {frame.shotType}</span>
                           </div>
                           <div className="mt-4 grid gap-4 md:grid-cols-2">
                              <div className="grid gap-3 text-sm leading-7 text-zinc-300">
-                               <p><span className="font-medium text-zinc-100">镜头目标：</span>{frame.goal}</p>
-                               <p><span className="font-medium text-zinc-100">画面描述：</span>{frame.visualPrompt}</p>
-                               <p><span className="font-medium text-zinc-100">口播：</span>{frame.voiceover}</p>
-                             </div>
-                             <div className="grid gap-3 text-sm leading-7 text-zinc-300">
-                               <p><span className="font-medium text-zinc-100">屏幕文案：</span>{frame.onScreenText}</p>
-                               <p><span className="font-medium text-zinc-100">转场：</span>{frame.transition}</p>
-                               <p><span className="font-medium text-zinc-100">评审备注：</span>{frame.notes}</p>
-                             </div>
+                               <p><span className="font-medium text-zinc-100">Shot Goal:</span> {frame.goal}</p>
+                               <p><span className="font-medium text-zinc-100">Visual Prompt:</span> {frame.visualPrompt}</p>
+                               <p><span className="font-medium text-zinc-100">Voiceover:</span> {frame.voiceover}</p>
+                              </div>
+                              <div className="grid gap-3 text-sm leading-7 text-zinc-300">
+                               <p><span className="font-medium text-zinc-100">On-screen Text:</span> {frame.onScreenText}</p>
+                               <p><span className="font-medium text-zinc-100">Transition:</span> {frame.transition}</p>
+                               <p><span className="font-medium text-zinc-100">Review Notes:</span> {frame.notes}</p>
+                              </div>
                           </div>
                         </motion.div>
                       ))}
                     </div>
                     <Separator />
                      <div className="grid gap-3 text-sm leading-7 text-zinc-300">
-                       <p className="font-medium text-zinc-100">评审建议</p>
-                      <ul className="grid gap-2">
+                       <p className="font-medium text-zinc-100">Review Guidance</p>
+                       <ul className="grid gap-2">
                         {storyboard.reviewGuidance.map((item) => (
                            <li key={item} className="rounded-2xl border border-white/12 bg-zinc-800/40 px-4 py-3">
                             {item}
@@ -482,17 +483,17 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           {activePanel === "images" && (
              <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
-                <CardTitle>关键帧预览</CardTitle>
+                <CardTitle>Keyframe Preview</CardTitle>
                 <CardDescription>
                   {images
                     ? `${images.provider} · ${images.model}`
-                    : "关键帧用于在出片前验证画面方向。未接入真实 Key 时会返回高保真演示图。"}
+                    : "Keyframes validate visual direction before video generation. Demo images are returned if live keys are not connected."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!images ? (
                    <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
-                    还没有关键帧。你可以先生成分镜，再调用图像生成路径确认每一帧的视觉气质。
+                    No keyframes yet. Generate a storyboard first, then validate each scene visually.
                   </div>
                 ) : (
                   <div className="grid gap-4 md:grid-cols-2">
@@ -526,17 +527,17 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           {activePanel === "video" && (
              <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
               <CardHeader>
-                <CardTitle>视频任务状态</CardTitle>
+                <CardTitle>Video Job Status</CardTitle>
                 <CardDescription>
                   {videoJob
                     ? `${videoJob.provider} · ${videoJob.model}`
-                    : "提交后会返回 job id 与轮询状态，适合放进可交付的项目流程。"}
+                    : "Submission returns a job id and polling status for production-ready workflow tracking."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-5">
                 {!videoJob ? (
                    <div className="rounded-[24px] border border-dashed border-white/16 bg-zinc-800/40 px-6 py-10 text-sm leading-7 text-zinc-400">
-                    还没有视频任务。建议在分镜和关键帧确认后再提交视频生成，避免把问题留到最后一步。
+                    No video job yet. Submit after storyboard and keyframes are validated to reduce rework.
                   </div>
                 ) : (
                   <>
@@ -553,13 +554,13 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                         {videoJob.status !== "completed" && (
                           <Button
                             variant="outline"
-                            className="rounded-full border-white/20 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
+                           className="rounded-full border-white/20 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
                             onClick={async () => {
                               const next = await getJson<VideoJobResponse>(videoJob.pollingUrl);
                               setVideoJob(next);
                             }}
                           >
-                            <RefreshCcw className="size-4" /> 立即刷新
+                            <RefreshCcw className="size-4" /> Refresh Now
                           </Button>
                         )}
                       </div>
@@ -576,14 +577,14 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                         />
                         <div className="grid gap-2 p-4 text-sm leading-7 text-zinc-300">
                           <p>
-                            当前界面已经具备异步任务和状态轮询结构。后续接入真实模型后，可以继续补“版本复核”、“导出交付单”和“投放建议”。
+                            This workspace already supports async jobs and polling. Next upgrades can add version review, export packs, and distribution recommendations.
                           </p>
                         </div>
                       </div>
                     ) : (
                        <div className="rounded-[24px] border border-white/12 bg-zinc-950/70 p-6 text-sm leading-7 text-zinc-300">
-                        视频还未回传。工作台会继续轮询状态，一旦完成就会在这里显示预览。
-                      </div>
+                        Video is not returned yet. The workspace will continue polling and show preview once completed.
+                       </div>
                     )}
                   </>
                 )}

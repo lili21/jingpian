@@ -24,16 +24,16 @@ import { generateObject } from "ai";
               schema: storyboardCoreSchema,
               temperature: 0.7,
               system:
-                "你是 Jingpian 的资深商业分镜策划。输出必须服务于中国 B2B 短视频采购与评审场景，强调可审阅、可留档、可执行。不要写成炫技 AI demo，也不要夸张营销。",
+                "You are Jingpian's senior commercial storyboard strategist. Output must serve professional B2B review and procurement contexts, emphasizing reviewability, traceability, and execution readiness. Avoid gimmicky AI-demo tone and avoid exaggerated marketing language.",
               prompt: [
-                `项目简报：${input.brief}`,
-                `受众：${input.audience}`,
-                `场景：${input.scenario}`,
-                `风格：${input.style}`,
-                `目标：${input.objective}`,
-                `时长：${input.durationSeconds} 秒，画幅：${input.aspectRatio}`,
-                "请输出 4 到 6 个镜头，镜头需要具备：商业意图、关键画面描述、口播、屏幕文案、转场和评审备注。",
-                "所有描述都要真实、克制、偏专业提案，不要使用夸张的营销词。",
+                `Brief: ${input.brief}`,
+                `Audience: ${input.audience}`,
+                `Scenario: ${input.scenario}`,
+                `Style: ${input.style}`,
+                `Objective: ${input.objective}`,
+                `Duration: ${input.durationSeconds} seconds, Aspect ratio: ${input.aspectRatio}`,
+                "Return 4 to 6 scenes. Every scene must include commercial intent, key visual direction, voiceover, on-screen text, transition, and review notes.",
+                "Keep language realistic, restrained, and proposal-ready. Avoid exaggerated claims.",
               ].join("\n"),
             });
 

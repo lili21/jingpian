@@ -29,59 +29,59 @@ const displayFont = Noto_Serif_SC({
 const briefPresets: BriefPreset[] = [
   {
     id: "launch",
-    label: "冷启上新",
+    label: "Launch Push",
     value:
-      "我们要为一款新上市的厨房咖啡机制作 20 秒冷启动视频，目标受众是首次购买人群。请在前 3 秒先建立可信感，再用真实场景证明易用性，结尾给出明确下单动机。",
+      "Create a 20-second launch video for a new home coffee machine. Audience is first-time buyers. Build trust in the first 3 seconds, prove ease-of-use with realistic scenes, and close with a clear buying trigger.",
   },
   {
     id: "promo",
-    label: "大促预热",
+    label: "Promo Teaser",
     value:
-      "我们要做一支 15 秒大促预热短片，目标是拉回老客并吸引新客点击活动页。请突出时限权益和价格优势，镜头节奏要快，但信息层次要清晰。",
+      "Create a 15-second campaign teaser to bring back existing customers and attract new traffic. Highlight limited-time offers and pricing advantage with fast pacing and clear message hierarchy.",
   },
   {
     id: "brand",
-    label: "品牌升级",
+    label: "Brand Refresh",
     value:
-      "我们正在做品牌升级传播，需要一支 20 秒品牌叙事视频，面向关注成分与口碑的人群。请通过专家背书、工艺细节和使用前后对比建立专业可信感。",
+      "Create a 20-second brand narrative video for a brand refresh campaign. Audience values product quality and credibility. Use expert signals, craft details, and before-after moments to establish trust.",
   },
 ];
 
 const showcaseCases = [
   {
-    title: "冷启动上新短片",
-    brief: "目标是用一个镜头抓住注意力，再把卖点讲透。",
-    storyboard: ["痛点钩子镜头", "核心卖点拆解", "真实场景验证", "转化动作收束"],
+    title: "New Product Launch",
+    brief: "Hook attention immediately, then prove the core value fast.",
+    storyboard: ["Problem Hook", "Core Benefit Breakdown", "Real-World Validation", "Conversion Close"],
   },
   {
-    title: "大促倒计时预热",
-    brief: "目标是讲清权益强度，同时保持高节奏和记忆点。",
-    storyboard: ["倒计时开场", "权益强度对比", "爆品场景穿插", "限时召回行动"],
+    title: "Campaign Countdown",
+    brief: "Clarify offer strength while keeping pace and memorability high.",
+    storyboard: ["Countdown Open", "Offer Strength Compare", "Hero Product Moments", "Urgent CTA"],
   },
   {
-    title: "品牌信任感叙事",
-    brief: "目标是把抽象品牌价值变成可感知、可记住的画面。",
-    storyboard: ["品牌主张定调", "专业能力背书", "用户结果呈现", "记忆锚点落版"],
+    title: "Brand Trust Narrative",
+    brief: "Turn abstract brand value into memorable visual proof.",
+    storyboard: ["Brand Thesis", "Capability Proof", "Outcome Showcase", "Memory Anchor"],
   },
 ];
 
-const loadingSteps = ["拆解业务目标", "编排镜头结构", "进入创作工作台"];
+const loadingSteps = ["Analyze Business Goal", "Structure Storyboard", "Open Workspace"];
 
 const faqItems = [
   {
-    question: "Jingpian 和普通文生视频工具有什么区别？",
+    question: "How is Jingpian different from direct text-to-video tools?",
     answer:
-      "普通工具更强调直接出片，Jingpian 更强调先把策略讲清。你会先得到可评审分镜，再推进关键帧和视频任务，让品牌、市场、内容团队在同一版本上对齐。",
+      "Most tools prioritize direct generation. Jingpian prioritizes strategic clarity first. You get a reviewable storyboard before moving into keyframes and video jobs, so marketing and creative teams align on one version.",
   },
   {
-    question: "我可以不生成视频，只做分镜评审吗？",
+    question: "Can I review storyboards without generating video yet?",
     answer:
-      "可以。你可以只使用分镜和关键帧模块完成提案、评审与修改，等方向稳定后再提交视频任务，避免预算浪费在错误方向上。",
+      "Yes. You can run storyboard and keyframe review only, finalize direction with stakeholders, and submit video tasks later to avoid waste on the wrong direction.",
   },
   {
-    question: "配置不足时还能正常演示流程吗？",
+    question: "Can we still run the workflow with limited provider setup?",
     answer:
-      "可以。系统优先使用已配置供应商，在缺少线上配置时仍保留演示回退路径，便于你先跑通流程、确认协作方式，再接入正式生产环境。",
+      "Yes. Jingpian prioritizes configured live providers and keeps demo fallback paths when configuration is incomplete, so teams can validate process before production rollout.",
   },
 ];
 
@@ -93,10 +93,10 @@ async function createStoryboard(brief: string) {
     },
     body: JSON.stringify({
       brief,
-      audience: "品牌市场与内容团队",
-      scenario: "商业提案与投放评审",
-      style: "专业、克制、可信",
-      objective: "先评审结构，再进入样片制作",
+      audience: "Marketing and creative teams",
+      scenario: "Campaign proposal and review",
+      style: "Professional, restrained, credible",
+      objective: "Review structure first, then produce",
       durationSeconds: 20,
       aspectRatio: "16:9",
     }),
@@ -105,7 +105,7 @@ async function createStoryboard(brief: string) {
   const data = (await response.json()) as StoryboardResponse | { error?: string };
 
   if (!response.ok) {
-    throw new Error((data as { error?: string }).error || "分镜生成失败");
+    throw new Error((data as { error?: string }).error || "Storyboard generation failed");
   }
 
   return data as StoryboardResponse;
@@ -136,10 +136,10 @@ export default function Home() {
       await createStoryboard(brief.trim());
       window.location.href = "/workspace";
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "分镜生成失败");
-      toast.message("你也可以直接去工作台继续。", {
+      toast.error(error instanceof Error ? error.message : "Storyboard generation failed");
+      toast.message("You can continue directly in the workspace.", {
         action: {
-          label: "打开工作台",
+          label: "Open Workspace",
           onClick: () => {
             window.location.href = "/workspace";
           },
@@ -164,7 +164,7 @@ export default function Home() {
           <div className="grid w-[min(92vw,460px)] gap-4 rounded-3xl border border-white/15 bg-zinc-900/90 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
             <div className="flex items-center gap-2 text-zinc-100">
               <LoaderCircle className="size-5 animate-spin" />
-              <p className="text-base font-semibold tracking-[-0.02em]">正在准备你的分镜</p>
+              <p className="text-base font-semibold tracking-[-0.02em]">Preparing your storyboard</p>
             </div>
             <div className="grid gap-2">
               {loadingSteps.map((step, index) => (
@@ -253,7 +253,7 @@ export default function Home() {
               <textarea
                 value={brief}
                 onChange={(event) => setBrief(event.target.value)}
-                placeholder="请写下你的目标、受众、场景、风格和转化诉求。例如：我们为新品首发做 20 秒投放视频，受众是 25-35 岁一线城市女性，前 3 秒建立信任，中段展示差异化卖点，结尾引导点击领券。"
+                placeholder="Describe your goal, audience, scenario, style, and conversion target. Example: Create a 20-second launch ad for a new product, build trust in the first 3 seconds, prove product differentiation in the middle, and close with a clear click-through CTA."
                 className="min-h-[172px] w-full resize-none rounded-[20px] border border-white/12 bg-zinc-950/70 px-4 py-3 text-[15px] leading-7 text-zinc-100 outline-none placeholder:text-zinc-500 focus:border-amber-300/50"
                 minLength={12}
                 required
@@ -265,7 +265,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-zinc-400">输入越具体，生成的分镜越可执行。建议至少包含目标、受众、场景与风格。</p>
+                <p className="text-sm text-zinc-400">More detail leads to more production-ready storyboards. Include goal, audience, scenario, and style.</p>
                 <button
                   type="submit"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-zinc-950 shadow-sm hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-70"
@@ -277,7 +277,7 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="mt-1 flex flex-wrap gap-2.5" aria-label="推荐输入">
+              <div className="mt-1 flex flex-wrap gap-2.5" aria-label="Suggested inputs">
                 {briefPresets.map((preset) => (
                   <button
                     type="button"
@@ -298,8 +298,8 @@ export default function Home() {
       <section className="relative z-10 px-4 pb-14 md:px-8 md:pb-18">
         <div className="mx-auto grid w-full max-w-[1180px] gap-6">
           <div className="grid gap-2 text-center">
-            <h2 className={`${displayFont.className} text-2xl font-semibold tracking-[-0.035em] text-zinc-50 md:text-3xl`}>把创意灵感变成可落地的镜头脚本</h2>
-            <p className="mx-auto text-sm text-zinc-400">以下是三种高频商业场景的结构示意。你输入业务简报后，会得到同样可评审、可迭代的镜头路径。</p>
+            <h2 className={`${displayFont.className} text-2xl font-semibold tracking-[-0.035em] text-zinc-50 md:text-3xl`}>Turn creative intent into production-ready scenes</h2>
+            <p className="mx-auto text-sm text-zinc-400">Three common commercial structures. Your brief generates a similarly reviewable, iterative scene path.</p>
           </div>
 
           <div className="grid gap-4 md:gap-5">
@@ -353,7 +353,7 @@ export default function Home() {
           <section className="mt-4 grid gap-3 rounded-[24px] border border-white/12 bg-zinc-900/72 p-5 shadow-[0_10px_36px_rgba(0,0,0,0.34)] md:p-6">
             <div className="inline-flex items-center gap-2 text-zinc-200">
               <Sparkles className="size-4 text-amber-300" />
-              <h3 className={`${displayFont.className} text-lg font-semibold tracking-[-0.02em]`}>你可能会关心的问题</h3>
+              <h3 className={`${displayFont.className} text-lg font-semibold tracking-[-0.02em]`}>Frequently asked questions</h3>
             </div>
             <Accordion defaultValue={[faqItems[0].question]} className="w-full">
               {faqItems.map((faq) => (
