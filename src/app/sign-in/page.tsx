@@ -4,7 +4,12 @@ import { AuthFormCard } from "@/components/auth/auth-form-card";
 import { getSubscriptionState } from "@/lib/billing/subscription";
 
 export default async function SignInPage() {
-  const subscription = await getSubscriptionState();
+  const subscription = await getSubscriptionState().catch(() => ({
+    isSignedIn: false,
+    isPremium: false,
+    plan: "free" as const,
+    source: "fallback" as const,
+  }));
   const pricingLabel = subscription.isPremium ? "Manage subscription" : "Upgrade to Premium";
 
   return (
