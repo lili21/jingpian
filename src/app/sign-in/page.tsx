@@ -4,7 +4,12 @@ import { AuthFormCard } from "@/components/auth/auth-form-card";
 import { getSubscriptionState } from "@/lib/billing/subscription";
 
 export default async function SignInPage() {
-  const subscription = await getSubscriptionState();
+  const subscription = await getSubscriptionState().catch(() => ({
+    isSignedIn: false,
+    isPremium: false,
+    plan: "free" as const,
+    source: "fallback" as const,
+  }));
   const pricingLabel = subscription.isPremium ? "Manage subscription" : "Upgrade to Premium";
 
   return (
@@ -19,16 +24,22 @@ export default async function SignInPage() {
             <span className="inline-flex items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">
               Account Access
             </span>
-            <h1 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] font-semibold tracking-[-0.04em]">
+            <h1 className="mt-4 text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.96] font-semibold tracking-[-0.045em]">
               Sign in and continue production.
             </h1>
             <p className="mt-5 max-w-[60ch] text-base leading-8 text-zinc-300">
-              Keep your storyboard-to-video workflow in one place with a persistent account identity.
+              Resume every approved scene, keyframe, and job state without losing production momentum.
             </p>
-            <div className="mt-6 grid gap-3 text-sm leading-7 text-zinc-300">
-              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Email and password sign-in</div>
-              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Demo fallback remains available</div>
-              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Auto-forward to workspace after auth</div>
+            <div className="mt-6 grid gap-3 text-sm leading-7 text-zinc-300 md:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Secure email authentication</div>
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Session continuity across projects</div>
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Instant workspace resume</div>
+            </div>
+            <div className="mt-7 rounded-3xl border border-amber-300/25 bg-amber-500/10 p-5">
+              <p className="text-[11px] font-semibold tracking-[0.16em] text-amber-300 uppercase">Production Note</p>
+              <p className="mt-2 text-sm leading-7 text-zinc-200">
+                Teams that review storyboard structure before rendering typically reduce iteration loops and keep media spend aligned.
+              </p>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link href="/" className="rounded-full border border-white/16 bg-zinc-900 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-zinc-800">

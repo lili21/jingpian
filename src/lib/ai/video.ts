@@ -54,10 +54,10 @@ export async function submitVideoJob(input: VideoRequest): Promise<VideoJobRespo
 
   const prompt = [
     input.brief,
-    `风格：${input.style}`,
-    `画幅：${input.aspectRatio}`,
-    `时长：${input.durationSeconds} 秒`,
-    "请保持商业提案级别的稳定镜头和真实质感。",
+    `Style: ${input.style}`,
+    `Aspect ratio: ${input.aspectRatio}`,
+    `Duration: ${input.durationSeconds} seconds`,
+    "Maintain stable framing and realistic texture suitable for commercial proposal review.",
   ].join("\n");
 
   try {
@@ -92,7 +92,7 @@ export async function submitVideoJob(input: VideoRequest): Promise<VideoJobRespo
         jobId,
         status,
         pollingUrl,
-        message: "视频任务已提交，工作台会自动轮询状态。",
+        message: "Video job submitted. Workspace will poll status automatically.",
       };
     }
 
@@ -115,8 +115,8 @@ export async function submitVideoJob(input: VideoRequest): Promise<VideoJobRespo
       status: videoUrl ? "completed" : "processing",
       pollingUrl: `/api/videos/${jobId}`,
       message: videoUrl
-        ? "视频已生成，可继续做复核或二次调整。"
-        : "视频任务已提交，工作台会自动轮询状态。",
+        ? "Video generated. Continue with review or second-pass refinements."
+        : "Video job submitted. Workspace will poll status automatically.",
       videoUrl,
     };
   } catch (error) {
@@ -155,10 +155,10 @@ export async function pollVideoJob(jobId: string): Promise<VideoJobResponse> {
       pollingUrl: `/api/videos/${jobId}`,
       message:
         status === "completed"
-          ? "样片已回传，可以继续做复核或二次调整。"
+          ? "Sample returned. Continue with review or second-pass refinements."
           : status === "failed"
-            ? "视频任务失败，请调整 prompt 或稍后重试。"
-            : "视频任务处理中，等待 OpenRouter 返回结果。",
+            ? "Video job failed. Adjust prompt inputs or retry shortly."
+            : "Video job is processing. Waiting for OpenRouter response.",
       videoUrl,
       thumbnailUrl,
     };

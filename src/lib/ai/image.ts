@@ -115,10 +115,10 @@ export async function generateStoryboardImages(
       input.frames.map(async (frame, index) => {
         const prompt = [
           frame.visualPrompt,
-          `画幅 ${input.aspectRatio}`,
-          `风格要求：${input.style}`,
-          "请保持真实、可拍摄、适合中国商业内容提案，不要过度 AI 风格化。",
-        ].join("，");
+          `Aspect ratio: ${input.aspectRatio}`,
+          `Style requirement: ${input.style}`,
+          "Keep visuals realistic, shootable, and suitable for commercial proposal review. Avoid over-stylized AI artifacts.",
+        ].join(", ");
 
         const liveUrl = await (useOpenRouter
           ? requestSingleImage(prompt)
