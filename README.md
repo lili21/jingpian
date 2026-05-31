@@ -229,6 +229,17 @@ src/
 
 ---
 
+## Design Language
+
+为保证后续功能和页面保持一致视觉与文案风格，请在新增页面或重构前先阅读：
+
+- `DESIGN.md` (design.md spec)
+- `docs/design-language.md`
+
+该文档定义了 Jingpian 的统一设计语言（cinematic dark、panel tokens、CTA 规范、文案语气与反模式）。
+
+---
+
 ## QA 范围
 
 建议每次改动后至少验证：

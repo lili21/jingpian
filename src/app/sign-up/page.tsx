@@ -5,36 +5,46 @@ import { getSubscriptionState } from "@/lib/billing/subscription";
 
 export default async function SignUpPage() {
   const subscription = await getSubscriptionState();
-  const pricingLabel = subscription.isPremium ? "管理订阅" : "升级 Premium";
+  const pricingLabel = subscription.isPremium ? "Manage subscription" : "Upgrade to Premium";
 
   return (
-    <main className="section-shell">
-      <div className="page-shell grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
-        <section className="surface-panel p-6 md:p-8">
-          <span className="eyebrow">创建账号</span>
-          <h1 className="section-title max-w-[12ch]">注册 Jingpian，沉淀你的内容项目节奏</h1>
-          <p className="section-subtitle max-w-[60ch]">
-            先做登录基础设施，不引入 Stripe，不打断当前 landing/workspace/AI 路径。你可以继续用现有流程，也可以把它逐步转为真实账号体验。
-          </p>
-          <div className="mt-6 grid gap-3 text-sm leading-7 text-muted-foreground">
-            <div className="surface-soft px-4 py-3">本地 sqlite 持久化账号数据</div>
-            <div className="surface-soft px-4 py-3">最小化改动，不影响现有 CTA 与工作台链路</div>
-            <div className="surface-soft px-4 py-3">后续可在此基础上接入项目列表与权限</div>
-          </div>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link href="/" className="cta-secondary">
-              返回首页
-            </Link>
-            <Link href="/workspace" className="cta-link">
-              继续体验工作台
-            </Link>
-            <Link href="/pricing" className="cta-secondary">
-              {pricingLabel}
-            </Link>
-          </div>
-        </section>
-        <AuthFormCard mode="signup" pricingLabel={pricingLabel} />
-      </div>
+    <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
+      <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
+
+      <section className="relative z-10 px-4 py-16 md:px-8 md:py-22">
+        <div className="mx-auto grid w-full max-w-[1180px] gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+          <section className="rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
+            <span className="inline-flex items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">
+              Create Account
+            </span>
+            <h1 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] font-semibold tracking-[-0.04em]">
+              Create your studio account.
+            </h1>
+            <p className="mt-5 max-w-[60ch] text-base leading-8 text-zinc-300">
+              Start with account identity now, then scale into collaborative production workflows.
+            </p>
+            <div className="mt-6 grid gap-3 text-sm leading-7 text-zinc-300">
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Account data persisted in SQLite</div>
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">No disruption to existing creation flow</div>
+              <div className="rounded-2xl border border-white/10 bg-zinc-800/45 px-4 py-3">Ready for future project and permission layers</div>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link href="/" className="rounded-full border border-white/16 bg-zinc-900 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-zinc-800">
+                Back Home
+              </Link>
+              <Link href="/workspace" className="inline-flex items-center justify-center rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-zinc-950 hover:bg-amber-300">
+                Try Workspace
+              </Link>
+              <Link href="/pricing" className="rounded-full border border-white/16 bg-zinc-900 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-zinc-800">
+                {pricingLabel}
+              </Link>
+            </div>
+          </section>
+          <AuthFormCard mode="signup" pricingLabel={pricingLabel} />
+        </div>
+      </section>
     </main>
   );
 }
