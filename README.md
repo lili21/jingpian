@@ -98,14 +98,14 @@ Stripe 套餐页与升级入口。
 当前使用：
 
 - `better-auth`
-- `better-sqlite3`
-- 本地 SQLite 文件：默认 `./data/auth.db`
+- `pg`
+- PostgreSQL（`DATABASE_URL`）
 
 关键环境变量：
 
 - `BETTER_AUTH_URL`
 - `BETTER_AUTH_SECRET`
-- `BETTER_AUTH_DB_PATH`
+- `DATABASE_URL`（兼容 `POSTGRES_URL`）
 
 ### Stripe billing skeleton
 当前已接入：
@@ -138,6 +138,7 @@ cp .env.example .env.local
 NEXT_PUBLIC_APP_URL=http://127.0.0.1:3000
 BETTER_AUTH_URL=http://127.0.0.1:3000
 BETTER_AUTH_SECRET=replace-with-a-long-random-string
+DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/jingpian
 
 AI_COMPATIBLE_BASE_URL=https://openrouter.ai/api/v1
 AI_COMPATIBLE_API_KEY=...

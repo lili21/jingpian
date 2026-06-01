@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, LoaderCircle } from "lucide-react";
+import { ArrowRight, Check, Clapperboard, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -84,7 +84,38 @@ export default function PricingPage() {
       <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
       <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
 
-      <section className="relative z-10 px-4 py-16 md:px-8 md:py-22">
+      <header className="relative z-10 px-4 pt-4 md:px-8">
+        <nav className="mx-auto flex w-full max-w-[1180px] items-center justify-between rounded-full border border-white/10 bg-zinc-950/75 px-4 py-3 shadow-[0_10px_44px_rgba(0,0,0,0.42)] backdrop-blur-md md:px-6">
+          <div className="inline-flex items-center gap-2.5">
+            <div className="inline-flex size-8 items-center justify-center rounded-full bg-amber-500/20 text-amber-400">
+              <Clapperboard className="size-4" />
+            </div>
+            <p className="text-xs font-semibold tracking-[0.2em] text-zinc-100 uppercase">Jingpian</p>
+          </div>
+          <div className="hidden items-center gap-5 text-sm text-zinc-400 md:flex">
+            <Link href="/workspace" className="hover:text-zinc-100">
+              Workspace
+            </Link>
+            <Link href="/pricing" className="text-zinc-100">
+              Pricing
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link href="/sign-in" className="rounded-full px-3 py-1.5 text-sm text-zinc-400 hover:text-zinc-100">
+              Sign in
+            </Link>
+            <Link
+              href="/workspace"
+              className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-3.5 py-1.5 text-sm font-semibold text-zinc-950 hover:bg-amber-300"
+            >
+              Start Free
+              <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+        </nav>
+      </header>
+
+      <section className="relative z-10 px-4 py-12 md:px-8 md:py-18">
         <div className="mx-auto grid w-full max-w-[1180px] gap-8">
           <section className="rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
             <span className="inline-flex items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">

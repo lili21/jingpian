@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-import { getAuthDb } from "@/lib/auth";
+import { ensureAuthDatabase, getAuthPool } from "@/lib/auth";
 import {
   getStripeClient,
   getStripeWebhookSecret,
@@ -51,7 +51,7 @@ async function resolveAppUserId(
   return customer.metadata?.appUserId || null;
 }
 
-function upsertSubscription(input: {
+async function upsertSubscription(input: {
   userId: string;
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
@@ -62,26 +62,24 @@ function upsertSubscription(input: {
   const status = input.status || "inactive";
   const plan = toPlan(status);
 
-  getAuthDb()
-    .prepare(
-      `INSERT INTO user_subscription (
-        userId,
-        stripeCustomerId,
-        stripeSubscriptionId,
-        status,
-        plan,
-        currentPeriodEnd,
-        updatedAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(userId) DO UPDATE SET
-        stripeCustomerId = excluded.stripeCustomerId,
-        stripeSubscriptionId = excluded.stripeSubscriptionId,
-        status = excluded.status,
-        plan = excluded.plan,
-        currentPeriodEnd = excluded.currentPeriodEnd,
-        updatedAt = excluded.updatedAt`,
-    )
-    .run(
+  await getAuthPool().query(
+    `INSERT INTO user_subscription (
+      user_id,
+      stripe_customer_id,
+      stripe_subscription_id,
+      status,
+      plan,
+      current_period_end,
+      updated_at
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+    ON CONFLICT(user_id) DO UPDATE SET
+      stripe_customer_id = EXCLUDED.stripe_customer_id,
+      stripe_subscription_id = EXCLUDED.stripe_subscription_id,
+      status = EXCLUDED.status,
+      plan = EXCLUDED.plan,
+      current_period_end = EXCLUDED.current_period_end,
+      updated_at = EXCLUDED.updated_at`,
+    [
       input.userId,
       input.stripeCustomerId || null,
       input.stripeSubscriptionId || null,
@@ -89,10 +87,13 @@ function upsertSubscription(input: {
       plan,
       input.currentPeriodEnd || null,
       now,
-    );
+    ],
+  );
 }
 
 export async function POST(request: Request) {
+  await ensureAuthDatabase();
+
   if (!isStripeConfigured()) {
     return Response.json({ received: true, mode: "fallback" });
   }
@@ -151,7 +152,7 @@ export async function POST(request: Request) {
         currentPeriodEnd = getSubscriptionCurrentPeriodEnd(subscription);
       }
 
-      upsertSubscription({
+      await upsertSubscription({
         userId: appUserId,
         stripeCustomerId: typeof session.customer === "string" ? session.customer : null,
         stripeSubscriptionId: subscriptionId,
@@ -175,7 +176,7 @@ export async function POST(request: Request) {
 
       const isDeleted = event.type === "customer.subscription.deleted";
 
-      upsertSubscription({
+      await upsertSubscription({
         userId: appUserId,
         stripeCustomerId:
           typeof subscription.customer === "string" ? subscription.customer : null,

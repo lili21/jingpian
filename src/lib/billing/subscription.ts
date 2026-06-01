@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { getAuthDb } from "@/lib/auth";
+import { ensureAuthDatabase, getAuthPool } from "@/lib/auth";
 import { getServerSession } from "@/lib/session";
 import { isStripeConfigured } from "@/lib/billing/stripe";
 
@@ -12,6 +12,8 @@ export type SubscriptionState = {
 };
 
 export const getSubscriptionState = cache(async (): Promise<SubscriptionState> => {
+  await ensureAuthDatabase();
+
   const source: SubscriptionState["source"] = isStripeConfigured() ? "stripe" : "fallback";
   const session = await getServerSession();
 
@@ -24,13 +26,15 @@ export const getSubscriptionState = cache(async (): Promise<SubscriptionState> =
     };
   }
 
-  const row = getAuthDb()
-    .prepare(
-      `SELECT plan, status
-       FROM user_subscription
-       WHERE userId = ?`,
-    )
-    .get(session.user.id) as { plan?: string; status?: string } | undefined;
+  const result = await getAuthPool().query(
+    `SELECT plan, status
+     FROM user_subscription
+     WHERE user_id = $1
+     LIMIT 1`,
+    [session.user.id],
+  );
+
+  const row = result.rows[0] as { plan?: string; status?: string } | undefined;
 
   const isPremium =
     row?.plan === "premium" ||
