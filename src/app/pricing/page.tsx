@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, Clapperboard, LoaderCircle } from "lucide-react";
+import { Check, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { StudioBackdrop, StudioFrameCorners, StudioHeader, StudioStatusStrip } from "@/components/studio/studio-chrome";
 
 type BillingAction = "checkout" | "portal";
 
@@ -80,51 +81,21 @@ export default function PricingPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-      <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
-      <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
-
-      <header className="relative z-10 px-4 pt-4 md:px-8">
-        <nav className="mx-auto flex w-full max-w-[1180px] items-center justify-between rounded-full border border-white/10 bg-zinc-950/75 px-4 py-3 shadow-[0_10px_44px_rgba(0,0,0,0.42)] backdrop-blur-md md:px-6">
-          <div className="inline-flex items-center gap-2.5">
-            <div className="inline-flex size-8 items-center justify-center rounded-full bg-amber-500/20 text-amber-400">
-              <Clapperboard className="size-4" />
-            </div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-zinc-100 uppercase">Jingpian</p>
-          </div>
-          <div className="hidden items-center gap-5 text-sm text-zinc-400 md:flex">
-            <Link href="/workspace" className="hover:text-zinc-100">
-              Workspace
-            </Link>
-            <Link href="/pricing" className="text-zinc-100">
-              Pricing
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link href="/sign-in" className="rounded-full px-3 py-1.5 text-sm text-zinc-400 hover:text-zinc-100">
-              Sign in
-            </Link>
-            <Link
-              href="/workspace"
-              className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-3.5 py-1.5 text-sm font-semibold text-zinc-950 hover:bg-amber-300"
-            >
-              Start Free
-              <ArrowRight className="size-3.5" />
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <StudioBackdrop />
+      <StudioHeader active="pricing" />
 
       <section className="relative z-10 px-4 py-12 md:px-8 md:py-18">
         <div className="mx-auto grid w-full max-w-[1180px] gap-8">
-          <section className="rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
-            <span className="inline-flex items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">
+          <section className="relative grid gap-4 rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
+            <StudioFrameCorners />
+            <StudioStatusStrip left="RATE CARD // ACTIVE" right="3 TIERS // USD" />
+            <span className="inline-flex w-fit items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">
               Pricing
             </span>
-            <h1 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] font-semibold tracking-[-0.04em]">
+            <h1 className="font-heading text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] font-semibold tracking-[-0.04em]">
               Choose your production tier.
             </h1>
-            <p className="mt-5 max-w-[68ch] text-base leading-8 text-zinc-300">
+            <p className="max-w-[68ch] text-base leading-8 text-zinc-300">
               Start with Free, move to Pro for daily production, and scale with Ultra for high-volume creative operations.
             </p>
           </section>
@@ -140,7 +111,7 @@ export default function PricingPage() {
                 }`}
               >
                 <p className="text-sm tracking-[0.16em] text-zinc-400 uppercase">{tier.name}</p>
-                <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-2 font-heading text-3xl font-semibold tracking-[-0.03em]">
                   {tier.price}
                   <span className="ml-1 text-base font-normal text-zinc-400">{tier.cadence}</span>
                 </h2>

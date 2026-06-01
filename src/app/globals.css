@@ -55,8 +55,8 @@
   --input: oklch(0.912 0.011 82.4);
   --ring: oklch(0.686 0.048 239.9);
   --radius: 1.2rem;
-  --font-body: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-  --font-heading: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  --font-body: var(--font-noto-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-heading: var(--font-noto-serif), "Songti SC", "Noto Serif SC", serif;
   --shadow-card: 0 18px 40px rgba(24, 38, 52, 0.08);
   --shadow-soft: 0 10px 28px rgba(24, 38, 52, 0.05);
 }

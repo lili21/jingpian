@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { StudioFrameCorners } from "@/components/studio/studio-chrome";
 import { authClient } from "@/lib/auth-client";
 
 type AuthMode = "signin" | "signup";
@@ -85,7 +86,8 @@ export function AuthFormCard({ mode, pricingLabel = "Upgrade to Premium" }: Auth
   }
 
   return (
-    <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 py-0 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+    <Card className="relative rounded-[28px] border border-white/12 bg-zinc-900/72 py-0 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+      <StudioFrameCorners />
       <CardHeader className="px-6 pt-6 md:px-7 md:pt-7">
         <div className="flex items-center gap-3">
           <span className="rounded-full border border-white/14 bg-white/5 px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase text-zinc-300">
@@ -98,7 +100,7 @@ export function AuthFormCard({ mode, pricingLabel = "Upgrade to Premium" }: Auth
             {pricingLabel}
           </Link>
         </div>
-        <CardTitle className="text-2xl tracking-[-0.03em]">{copy.title}</CardTitle>
+        <CardTitle className="font-heading text-2xl tracking-[-0.03em]">{copy.title}</CardTitle>
         <CardDescription className="text-sm leading-7 text-zinc-300 md:text-[15px]">{copy.subtitle}</CardDescription>
       </CardHeader>
       <CardContent className="px-6 pb-6 md:px-7 md:pb-7">

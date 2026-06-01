@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { StudioBackdrop, StudioFrameCorners, StudioHeader, StudioStatusStrip } from "@/components/studio/studio-chrome";
 import { Textarea } from "@/components/ui/textarea";
 import type {
   ImageGenerationResponse,
@@ -181,13 +182,14 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-      <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
-      <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
-      <div className="page-shell relative z-10 grid gap-8 py-16 xl:grid-cols-[0.95fr_1.2fr]">
-        <div className="grid gap-5 self-start xl:sticky xl:top-8">
-          <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+      <StudioBackdrop />
+      <StudioHeader active="workspace" />
+      <div className="page-shell relative z-10 grid gap-8 py-10 xl:grid-cols-[0.95fr_1.2fr]">
+        <div className="grid gap-5 self-start xl:sticky xl:top-24">
+          <Card className="relative rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+            <StudioFrameCorners />
             <CardHeader className="gap-4">
+              <StudioStatusStrip left="PROJECT // ACTIVE" right="BRIEF // INPUT" />
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100">
                   <ArrowLeft className="size-4" /> Back Home
@@ -203,7 +205,7 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
                 </Badge>
               </div>
               <div>
-                <CardTitle className="text-2xl md:text-3xl">Jingpian Workspace</CardTitle>
+                <CardTitle className="font-heading text-2xl md:text-3xl">Jingpian Workspace</CardTitle>
                  <CardDescription className="mt-3 max-w-[56ch] text-sm leading-7 text-zinc-300 md:text-[15px]">
                   Keep brief input, storyboard review, keyframes, and video jobs in one operational view. Align structure first, then produce.
                 </CardDescription>
@@ -352,12 +354,13 @@ export function WorkspaceShell({ subscription }: WorkspaceShellProps) {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="grid gap-5"
         >
-          <Card className="rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+          <Card className="relative rounded-[28px] border border-white/12 bg-zinc-900/72 text-zinc-100 shadow-[0_18px_70px_rgba(0,0,0,0.42)]">
+            <StudioFrameCorners />
             <CardContent className="grid gap-5 py-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-sm text-zinc-400">Current Workflow Status</p>
-                  <h1 className="mt-2 text-3xl font-semibold tracking-[-0.04em] md:text-[2.5rem]">
+                  <h1 className="mt-2 font-heading text-3xl font-semibold tracking-[-0.04em] md:text-[2.5rem]">
                     One continuous view from brief to video job
                   </h1>
                 </div>

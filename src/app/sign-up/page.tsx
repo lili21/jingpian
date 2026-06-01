@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { AuthFormCard } from "@/components/auth/auth-form-card";
+import { StudioBackdrop, StudioFrameCorners, StudioHeader, StudioStatusStrip } from "@/components/studio/studio-chrome";
 import { getSubscriptionState } from "@/lib/billing/subscription";
 
 export default async function SignUpPage() {
@@ -14,17 +15,20 @@ export default async function SignUpPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-      <div className="pointer-events-none absolute -top-44 -left-28 size-[520px] rounded-full bg-amber-500/16 blur-[140px]" />
-      <div className="pointer-events-none absolute right-[-120px] bottom-10 size-[520px] rounded-full bg-cyan-500/16 blur-[140px]" />
+      <StudioBackdrop />
+      <StudioHeader />
 
       <section className="relative z-10 px-4 py-16 md:px-8 md:py-22">
         <div className="mx-auto grid w-full max-w-[1180px] gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
-          <section className="rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
+          <section className="relative rounded-[28px] border border-white/12 bg-zinc-900/72 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.42)] md:p-8">
+            <StudioFrameCorners />
+            <div className="mb-4">
+              <StudioStatusStrip left="NEW SESSION // READY" right="ACCESS // STUDIO" />
+            </div>
             <span className="inline-flex items-center rounded-full border border-white/14 bg-white/5 px-3 py-1 text-[11px] tracking-[0.18em] text-zinc-300 uppercase">
               Create Account
             </span>
-            <h1 className="mt-4 text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.96] font-semibold tracking-[-0.045em]">
+            <h1 className="mt-4 font-heading text-[clamp(2.1rem,4.5vw,3.8rem)] leading-[0.96] font-semibold tracking-[-0.045em]">
               Create your studio account.
             </h1>
             <p className="mt-5 max-w-[60ch] text-base leading-8 text-zinc-300">

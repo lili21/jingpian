@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const notoSans = Noto_Sans_SC({
+  variable: "--font-noto-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const notoSerif = Noto_Serif_SC({
+  variable: "--font-noto-serif",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -33,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth`}
+      className={`${notoSans.variable} ${notoSerif.variable} ${geistMono.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full bg-background text-foreground antialiased">
         {children}
